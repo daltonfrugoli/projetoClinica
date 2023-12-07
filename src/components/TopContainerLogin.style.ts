@@ -15,8 +15,6 @@ export const styles = StyleSheet.create({
     },
     options: {
         height: 39,
-        borderBottomWidth: 3,
-        borderColor: '#FF4500',
     },
     optionsText: {
         color: 'white',
