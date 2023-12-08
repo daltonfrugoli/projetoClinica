@@ -30,10 +30,9 @@ export const FormPaciente = () => {
 
     return(
         <View>
-            <View style = { styles.formContainer }>
-
-                {/*Formulário para pacientes*/}
-                <Form ref = { formRef } onSubmit = { printData }>
+            {/*Formulário para pacientes*/}
+            <Form ref = { formRef } onSubmit = { printData }>
+                <View style = { styles.formContainer }>
                     <Text style = { styles.textInputs }>Email</Text>
                     <TextInput 
                     style = { styles.inputEmail } 
@@ -54,11 +53,12 @@ export const FormPaciente = () => {
                         onChangeText = { (value) => {setSenhaValue(value)} }>
                         </TextInput>
                         <TouchableOpacity style = { styles.hideButton } onPress = { () => showPass() }>
-                            <Ionicons name = 'eye-outline' style = {{ color: 'white', fontSize: 20 }}/>
+                            <Ionicons name = { hidePass == false ? 'eye-off-outline' : 'eye-outline' } style = {{ color: '#ffffff', fontSize: 20 }}/>
                         </TouchableOpacity>
                     </View>
-                </Form>
-            </View>
+                </View>
+            </Form>
+            
 
             {/*Botão para envio de formulário*/}
             <View style = { styles.buttonContainer }>

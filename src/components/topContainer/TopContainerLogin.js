@@ -19,7 +19,7 @@ export const TopContainerLogin = () => {
             <View style = { styles.topContainer }>
                 <Image 
                 source = { require('../../assets/images/dentist.png') }
-                style = {{ height: 120, width: 120, alignSelf: "center", marginTop: 55 }} 
+                style = { styles.image } 
                 />
 
                 {/*Opções que o usuário deve selecionar para efetuar login */}

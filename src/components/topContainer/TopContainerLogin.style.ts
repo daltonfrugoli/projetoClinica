@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+    image: {
+        height: 120, 
+        width: 120, 
+        alignSelf: "center", 
+        marginTop: 55
+    },
     topContainer: {
         width: '100%',
         backgroundColor: '#2B5353',
