@@ -1,22 +1,18 @@
 import React, { useRef } from "react";
 
 import {
-    View,
-    Text,
-    ScrollView,
-    TouchableOpacity
-} from 'react-native'
+    ScrollView, 
+} from 'react-native';
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TopContainerLogin } from '../../components/TopContainerLogin.js'
-import { FormPaciente } from '../../components/FormPaciente.js'
+import { TopContainerLogin } from '../../components/topContainer/TopContainerLogin.js';
 
 export function Login({navigation}){
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: '#2B5353D9'}}>
+        <SafeAreaView style = {{ flex: 1, backgroundColor: '#2B5353D9' }}>
             <ScrollView>
+                {/*componente principal de tela de login, que controla o form carregado*/}
                 <TopContainerLogin/>
-                <FormPaciente/>
             </ScrollView>      
         </SafeAreaView>
     )

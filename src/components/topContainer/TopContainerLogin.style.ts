@@ -14,13 +14,11 @@ export const styles = StyleSheet.create({
         height: 85
     },
     options: {
-        height: 39,
+        height: 39
     },
     optionsText: {
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold'
     }
-
-  
 })
