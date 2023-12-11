@@ -5,19 +5,21 @@ export const styles = StyleSheet.create({
         height: 120, 
         width: 120, 
         alignSelf: "center", 
-        marginTop: 55
+        marginTop: 55,
+        marginBottom: 20
     },
     topContainer: {
         width: '100%',
-        backgroundColor: '#2B5353',
-        borderBottomRightRadius: 30,
-        borderBottomLeftRadius: 30
+        backgroundColor: '#2B5353'
     },
     topContainerOptions: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'flex-end',
-        height: 85
+        height: 50,
+        backgroundColor: '#2B5353',
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30
     },
     options: {
         height: 39
@@ -27,4 +29,5 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold'
     }
+    
 })
