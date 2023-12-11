@@ -13,8 +13,12 @@ export function Login({navigation}){
 
     const [printForm, setPrintForm] = useState('client');
 
-    const MudarPrint = (dadoQueVemDoComponente) => {
+    const mudarPrint = (dadoQueVemDoComponente) => {
         setPrintForm(dadoQueVemDoComponente)
+    }
+
+    const submitData = (email, senha) => {
+        console.log(email, senha)
     }
 
 
@@ -23,8 +27,8 @@ export function Login({navigation}){
         <SafeAreaView style = {{ flex: 1, backgroundColor: '#2B5353D9' }}>
             <ScrollView>
                 {/*componente principal de tela de login, que controla o form carregado*/}
-                <TopContainerLogin func = { (dadoQueVemDoComponente) => MudarPrint(dadoQueVemDoComponente)}/>
-                { printForm == 'client' ? <FormPaciente/> : null }
+                <TopContainerLogin func = { (dadoQueVemDoComponente) => mudarPrint(dadoQueVemDoComponente)}/>
+                { printForm == 'client' ? <FormPaciente func = {(email, senha) => submitData(email, senha)}/> : null }
             </ScrollView>      
         </SafeAreaView>
     )
