@@ -11,7 +11,7 @@ import { Form } from "@unform/mobile";
 import { styles } from "./FormPaciente.style";
 import { HideButton } from "../hidebutton/HideButton";
 
-export const FormPaciente = () => {
+export const FormPaciente = (props) => {
 
     const email = useRef();
     const senha = useRef();
@@ -23,7 +23,7 @@ export const FormPaciente = () => {
     
 
     function printData(){
-        console.log(emailValue, senhaValue);
+        props.func(emailValue, senhaValue)
     }
 
     function esconder(esconderSenha){
