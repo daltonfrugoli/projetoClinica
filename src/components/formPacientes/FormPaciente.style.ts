@@ -17,7 +17,8 @@ export const styles = StyleSheet.create({
         backgroundColor: '#2B5353',
         borderRadius: 8,
         color: '#ffffff',
-       
+        height: 50,
+        padding: 10
     },
     inputSenhaContainer: {
         flexDirection: "row"
@@ -28,18 +29,9 @@ export const styles = StyleSheet.create({
         borderBottomLeftRadius: 8,
         marginBottom: 65,
         color: '#ffffff',
-        
-        width: '85%'
-    },
-    hideButton: {
-        backgroundColor:'#2B5353',
-        height: 49,
-        alignItems: "center",
-        justifyContent: "center",
-        borderBottomRightRadius: 8,
-        borderTopRightRadius: 8,
-      
-        width: '15%'
+        width: '85%',
+        height: 50,
+        padding: 10
     },
     upButton: {
         alignItems: 'center',
