@@ -10,6 +10,11 @@ import { TopContainerLogin } from '../../components/topContainer/TopContainerLog
 import { FormPaciente } from "../../components/formPacientes/FormPaciente.js";
 import { signIn }  from "../../services/Http.js" 
 import Spinner from "react-native-loading-spinner-overlay";
+import SQLite from "react-native-sqlite-storage";
+
+
+const db = SQLite.openDatabase({name: 'app.db', createFromLocation: 2 }, () => {}, error => {console.log(error)}); 
+
 
 export function Login({navigation}){
 
@@ -31,12 +36,41 @@ export function Login({navigation}){
             console.log(res.status);
             console.log(res.data)
             setTimeout(() => {
-                setSpinnerVisible(false)
+                
 
                 if (res.status != 200){
+                    setSpinnerVisible(false)
                     Alert.alert('Atenção!', res.data.error)
                 }else{
-                    Alert.alert('Login bem sucedido!', res.data.token)
+                    //Alert.alert('Login bem sucedido!', res.data.token)
+                    setSpinnerVisible(false)
+                    db.transaction((qr) => {
+                        console.log(qr)
+                        qr.executeSql(
+                            "SELECT * FROM users",
+                            [],
+                            (qr2, results) => {
+                               /* if(results.rows.length > 0){
+                                    qr2.executeSql(
+                                        "UPDATE users SET email = ?, senha = ?, user = ?, token = ?",
+                                        [email, senha, res.data.user, res.data.token]
+                                    )
+
+                                } else {
+
+                                    qr2.executeSql(
+                                        "INSERT INTO users (email, senha, user, token) VALUES (?, ?, ?, ?)",
+                                        [email, senha, res.data.user, res.data.token]
+                                    )
+                                }
+                                setTimeout(() => {
+                                    setSpinnerVisible(false)
+                                    navigation.navigate("Menu")
+                                }, 500)*/
+                                console.log(results)
+                            }
+                        )
+                    }); 
                 }
             }, 1000)
             
