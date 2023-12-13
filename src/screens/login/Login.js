@@ -61,7 +61,7 @@ export function Login({navigation}){
                                 setTimeout(() => {
                                     // Passar os dados de usuário para tela de Menu
                                     setSpinnerVisible(false)
-                                    navigation.navigate("Menu")
+                                    navigation.navigate("Menu", {dataUser: res.data.user})
                                 }, 500)
                             }
                         )

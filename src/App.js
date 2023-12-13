@@ -12,7 +12,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SQLite from "react-native-sqlite-storage";
 import { Login } from './screens/login/Login';
-import { Menu } from "./screens/menu/Menu"
+import { Menu } from "./screens/menu/Menu";
+import { Agendamento } from "./screens/agendamento/Agendamento"
+import { Equipe } from "./screens/equipe/Equipe"
+import { Historico } from "./screens/historico/Historico"
 
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +52,9 @@ function App() {
       <Stack.Navigator initialRouteName = "Login" screenOptions = {{ headerShown: false, headerLeft: null, animation: "slide_from_right" }}>
         <Stack.Screen name = "Login" component = { Login }/>
         <Stack.Screen name = "Menu" component = { Menu }/>
+        <Stack.Screen name = "Agendamento" component = { Agendamento }/>
+        <Stack.Screen name = "Historico" component = { Historico }/>
+        <Stack.Screen name = "Equipe" component = { Equipe }/>
       </Stack.Navigator>
     </NavigationContainer>  
   )
