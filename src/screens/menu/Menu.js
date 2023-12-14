@@ -26,9 +26,6 @@ export function Menu({navigation, route}){
         let data = new Date()
         let hora = data.getHours() 
 
-        console.log(hora)
-        console.log(data)
-
         if(hora >= 0 && hora < 12)
         {
             setHorario('Bom dia,')
@@ -88,8 +85,7 @@ export function Menu({navigation, route}){
    
     return(
         <SafeAreaView style={{backgroundColor: '#476969', flex: 1}}>
-            <View style={styles.flatList}>
-                <FlatList 
+            <FlatList 
                 ListHeaderComponent={headerList}
                 contentContainerStyle={{paddingBottom: 100}}
                 data={servicos}
@@ -97,8 +93,7 @@ export function Menu({navigation, route}){
                 renderItem={renderItem}
                 numColumns={2}
                 columnWrapperStyle={{flexWrap: 'wrap', justifyContent: 'space-evenly'}}
-                />
-            </View>
+            />
             <Footer/>
         </SafeAreaView>
     )

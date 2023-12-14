@@ -38,6 +38,7 @@ export const FormPaciente = (props) => {
                     <View style = { styles.formContainer }>
                         <Text style = { styles.textInputs }>Email</Text>
                         <TextInput 
+                        autoCapitalize = "none"
                         style = { styles.inputEmail } 
                         placeholder = "Digite seu email" 
                         placeholderTextColor = { 'grey' } 

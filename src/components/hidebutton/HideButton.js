@@ -9,7 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 export const HideButton = (props) => {
 
-    const [hidePass, setHidePass] = useState(true);
+    const [hidePass, setHidePass] = useState(false);
 
     function changeButton(){
         hidePass == true ? setHidePass(false) : setHidePass(true);
@@ -23,7 +23,7 @@ export const HideButton = (props) => {
 
     <TouchableOpacity 
     style = {styles.hideButton} onPress = { () =>{ changeButton(), mudarSenha() }}>
-        <Ionicons name = { hidePass == true ? 'eye-off-outline' : 'eye-outline' } style = {{ color: '#ffffff', fontSize: 20 }}/>
+        <Ionicons name = { hidePass == true ? 'eye-off-outline' : 'eye-outline' } style = { styles.icon }/>
     </TouchableOpacity>
     )
 }

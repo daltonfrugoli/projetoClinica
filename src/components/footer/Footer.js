@@ -6,7 +6,9 @@ import {
     Text
 } from "react-native"
 
-import { styles } from "./Footer.style"
+import { styles } from "./Footer.style";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 
 export const Footer = () => {
 
@@ -20,7 +22,7 @@ export const Footer = () => {
             }}
             style={styles.footerButtons}
             >
-                <Text style={[styles.footerIcon, {color: press == 'home'? '#FF4500' : '#ffffff'}]}>HOME</Text>
+                <Ionicons name="home" style={[styles.footerIcon, {color: press == 'home'? '#FF4500' : '#ffffff'}]}></Ionicons>
             </TouchableOpacity>
 
             <TouchableOpacity 
@@ -29,7 +31,7 @@ export const Footer = () => {
             }}
             style={styles.footerButtons}
             >
-                <Text style={[styles.footerIcon, {color: press == 'user'? '#FF4500' : '#ffffff'}]}>USER</Text>
+                <Ionicons name="person"style={[styles.footerIcon, {color: press == 'user'? '#FF4500' : '#ffffff'}]}></Ionicons>
             </TouchableOpacity>
         </View>
     )
