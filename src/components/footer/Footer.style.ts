@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
         padding: 10
     },
     footerIcon: {
-        color: '#ffffff'
+        color: '#ffffff',
+        fontSize: 30
     }
 })
