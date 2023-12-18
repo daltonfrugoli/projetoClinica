@@ -15,9 +15,9 @@ export function Menu({navigation, route}){
 
     const dados = route.params
     const nome = dados.dataUser.name
-    const [horario, setHorario] = useState('asdfasdfas')
+    const [horario, setHorario] = useState('-')
 
-    useEffect( () => {
+    useEffect(() => {
         horarioConfig()
     }, [])
 
@@ -63,7 +63,7 @@ export function Menu({navigation, route}){
 
     const renderItem = ({item, index}) => {
         return(
-            <Card name={item.name} icon={item.icon}/>
+            <Card name = {item.name} icon = {item.icon}/>
           )
     }
 
@@ -71,11 +71,11 @@ export function Menu({navigation, route}){
 
         return(
             <View>
-                <View style={styles.header}>
-                    <Text style={{color: '#ffffff', fontSize: 15}}>{horario}</Text>
-                    <Text style={{color: '#ffffff', fontSize: 18, fontWeight: 'bold'}}>{nome}</Text>
+                <View style = {styles.header}>
+                    <Text style = {{color: '#ffffff', fontSize: 15}}>{horario}</Text>
+                    <Text style = {{color: '#ffffff', fontSize: 18, fontWeight: 'bold'}}>{nome}</Text>
                 </View>  
-                <Text style={styles.pergunta}>O que gostaria de fazer?</Text>
+                <Text style = {styles.pergunta}>O que gostaria de fazer?</Text>
             </View>
               
         )
@@ -84,17 +84,17 @@ export function Menu({navigation, route}){
     
    
     return(
-        <SafeAreaView style={{backgroundColor: '#476969', flex: 1}}>
+        <SafeAreaView style = {{backgroundColor: '#476969', flex: 1}}>
             <FlatList 
-                ListHeaderComponent={headerList}
-                contentContainerStyle={{paddingBottom: 100}}
-                data={servicos}
-                keyExtractor={item => item.id}
-                renderItem={renderItem}
-                numColumns={2}
-                columnWrapperStyle={{flexWrap: 'wrap', justifyContent: 'space-evenly'}}
+                ListHeaderComponent = {headerList}
+                contentContainerStyle = {{paddingBottom: 100}}
+                data = {servicos}
+                keyExtractor = {item => item.id}
+                renderItem = {renderItem}
+                numColumns = {2}
+                columnWrapperStyle = {{flexWrap: 'wrap', justifyContent: 'space-evenly'}}
             />
-            <Footer/>
+            <Footer pressButton = {'home'} />
         </SafeAreaView>
     )
 }

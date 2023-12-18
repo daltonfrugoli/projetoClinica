@@ -12,6 +12,7 @@ export async function signIn(email, senha){
     }
 }
 
+//seção para buscar membrios da equipe
 export async function getMembers(){
     try{
         const response = await api.get("/members")
@@ -23,3 +24,16 @@ export async function getMembers(){
         return error
     }
 } 
+
+//seção para buscar número de consultas 
+export async function getQueries(memberId){
+    try{
+        const response = await api.get('/appointments/' + memberId);
+
+        return response
+    }
+
+    catch(error){
+        return error
+    }
+}

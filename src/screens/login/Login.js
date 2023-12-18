@@ -10,10 +10,9 @@ import { TopContainerLogin } from '../../components/topContainer/TopContainerLog
 import { FormPaciente } from "../../components/formPacientes/FormPaciente.js";
 import { signIn }  from "../../services/Http.js" 
 import Spinner from "react-native-loading-spinner-overlay";
-import SQLite from "react-native-sqlite-storage";
+import { db } from "../../App.js";
 
-
-const db = SQLite.openDatabase({name: 'app.db', createFromLocation: 2 }, () => {}, error => {console.log(error)}); 
+ 
 
 
 export function Login({navigation}){
@@ -39,13 +38,13 @@ export function Login({navigation}){
                 }else{
                     //Alert.alert('Login bem sucedido!', res.data.token)
                     setSpinnerVisible(false)
-                    /db.transaction((qr) => {
+                    db.transaction((qr) => {
                         qr.executeSql(
                             "SELECT * FROM users",
                             [],
-                            (qr2, results) => {
-                                // Aqui falta converter o objeto "res.data.user" para string antes de salvar no SQLite
-                               if(results.rows.length > 0){
+                            (qr2, results) => { console.log(results)
+                                //Aqui falta converter o objeto "res.data.user" para string antes de salvar no SQLite
+                                if(results.rows.length > 0){
                                     qr2.executeSql(
                                         "UPDATE users SET email = ?, senha = ?, user = ?, token = ?",
                                         [email, senha, JSON.stringify(res.data.user), res.data.token]
@@ -86,7 +85,7 @@ export function Login({navigation}){
                 { printForm == 'client' ? <FormPaciente func = {(email, senha) => submitData(email, senha)}/> : null }
             </ScrollView> 
 
-            <Spinner visible={spinnerVisible}/>     
+            <Spinner visible = {spinnerVisible}/>     
         </SafeAreaView>
     )
 }

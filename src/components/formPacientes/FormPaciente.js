@@ -58,7 +58,7 @@ export const FormPaciente = (props) => {
                             </TextInput>
 
                             {/*componente para ativar/desativar visibilidade da senha*/}
-                            <HideButton func={ (esconderSenha) => esconder(esconderSenha) }/>
+                            <HideButton func = { (esconderSenha) => esconder(esconderSenha) }/>
                         </View>
                     </View>
                 </Form>

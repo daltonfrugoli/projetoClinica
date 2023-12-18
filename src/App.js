@@ -10,17 +10,17 @@ import React, { useEffect } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SQLite from "react-native-sqlite-storage";
 import { Login } from './screens/login/Login';
 import { Menu } from "./screens/menu/Menu";
 import { Agendamento } from "./screens/agendamento/Agendamento";
 import { Equipe } from "./screens/equipe/Equipe";
 import { Historico } from "./screens/historico/Historico";
 import { EquipeDetails } from "./screens/equipeDetails/EquipeDetails";
+import SQLite from "react-native-sqlite-storage";
 
 
 const Stack = createNativeStackNavigator();
-const db = SQLite.openDatabase( 
+export const db = SQLite.openDatabase( 
   {
     name: "app.db",
     createFromLocation: 2
