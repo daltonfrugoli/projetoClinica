@@ -31,5 +31,27 @@ export const styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    firstRowInfo: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginVertical: 25
+    },
+    infosIcon: {
+        color: '#2B5353',
+        fontSize: 55
+    },
+    infosText: {
+        color: '#ffffff',
+        fontSize: 18
+    },
+    infosContainer: {
+        alignItems: 'center',
+        borderRadius: 8,
+        backgroundColor:'#64ABA3',
+        height: 65,
+        width: 65,
+        justifyContent: 'center',
+        marginBottom: 5
     }
 })

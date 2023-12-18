@@ -16,9 +16,12 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { getMembers } from "../../services/Http";
 import { Card } from "../../components/equipesCard/Card"
 
+
 export function Equipe({navigation}){
 
-    useEffect( () => {
+
+    //esta seção busca informações de membros no DB
+    useEffect(() => {
         getMembers()
         .then((res) => {
             setEquipe(res.data)
@@ -34,7 +37,7 @@ export function Equipe({navigation}){
 
     const renderItem = ({item, index}) => {
         return(
-                <Card name={item.name} data={item}/> 
+                <Card name = {item.name} data = {item}/> 
           )
     }
 
@@ -42,19 +45,19 @@ export function Equipe({navigation}){
 
         return(
             <View>
-                <View style={styles.topView}>
+                <View style = {styles.topView}>
                     <TouchableOpacity 
-                    onPress={ () => {
+                    onPress = {() => {
                         navigation.dispatch(CommonActions.goBack())
                     }}
                     >
-                        <Ionicons name="arrow-back-outline" style={styles.goBackArrow}></Ionicons>  
+                        <Ionicons name = "arrow-back-outline" style = {styles.goBackArrow}></Ionicons>  
                     </TouchableOpacity>
-                    <Text style={styles.topText}>Equipe de Profissionais</Text>
+                    <Text style = {styles.topText}>Equipe de Profissionais</Text>
                 </View>
                 
-                <View style={styles.descTextContainer}>
-                    <Text style={styles.descText}>
+                <View style = {styles.descTextContainer}>
+                    <Text style = {styles.descText}>
                         Conheça o nosso time de profissionais
                         que vão te proporcionar a melhor
                         experiência odontológica possível!
@@ -65,17 +68,17 @@ export function Equipe({navigation}){
     }
 
     return(
-        <SafeAreaView style={{backgroundColor: '#476969', flex: 1}}>
+        <SafeAreaView style = {{backgroundColor: '#476969', flex: 1}}>
             <FlatList 
-                ListHeaderComponent={HeaderList}
-                contentContainerStyle={{ paddingBottom: 100 }}
-                data={equipe}
-                keyExtractor={item => item.id}
-                renderItem={renderItem}
-                numColumns={2}
-                columnWrapperStyle={{ flexWrap: 'wrap', justifyContent: 'space-evenly'}}
+                ListHeaderComponent = {HeaderList}
+                contentContainerStyle = {{ paddingBottom: 100 }}
+                data = {equipe}
+                keyExtractor = {item => item.id}
+                renderItem = {renderItem}
+                numColumns = {2}
+                columnWrapperStyle = {{ flexWrap: 'wrap', justifyContent: 'space-evenly'}}
             />
-            <Footer/>
+            <Footer pressButton = {null}/>
         </SafeAreaView>
     )
 }
