@@ -57,3 +57,15 @@ export async function updateUser(userData){
     }
 }
 
+export async function listAppointments(userId){
+    try{
+        const response = await api.get('/appointments', {
+        userId: userId})
+
+        return response
+    }
+
+    catch(error){
+        return error
+    }
+} 
