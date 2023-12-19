@@ -24,6 +24,7 @@ export const FormPaciente = (props) => {
 
     function printData(){
         props.func(emailValue, senhaValue)
+        senha.current.clear()
     }
 
     function esconder(esconderSenha){
