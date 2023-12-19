@@ -11,6 +11,7 @@ import { FormPaciente } from "../../components/formPacientes/FormPaciente.js";
 import { signIn }  from "../../services/Http.js" 
 import Spinner from "react-native-loading-spinner-overlay";
 import { db } from "../../App.js";
+import globalVariables from "../../services/globalVariables.js";
 
  
 
@@ -38,31 +39,34 @@ export function Login({navigation}){
                 }else{
                     //Alert.alert('Login bem sucedido!', res.data.token)
                     setSpinnerVisible(false)
+                    console.log(res.data.user.id)
                     db.transaction((qr) => {
                         qr.executeSql(
-                            "SELECT * FROM users",
-                            [],
-                            (qr2, results) => { console.log(results)
+                            "SELECT * FROM users WHERE userId = ?",
+                            [res.data.user.id],
+                            (qr2, results) => { console.log(results.rows.raw())
                                 //Aqui falta converter o objeto "res.data.user" para string antes de salvar no SQLite
-                                if(results.rows.length > 0){
+                               /* if(results.rows.length > 0){
                                     qr2.executeSql(
-                                        "UPDATE users SET email = ?, senha = ?, user = ?, token = ?",
-                                        [email, senha, JSON.stringify(res.data.user), res.data.token]
+                                        "UPDATE users SET email = ?, senha = ?, user = ?, token = ?, userId = ?",
+                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id]
                                     )
 
                                 } else {
 
                                     qr2.executeSql(
-                                        "INSERT INTO users (email, senha, user, token) VALUES (?, ?, ?, ?)",
-                                        [email, senha, JSON.stringify(res.data.user), res.data.token]
+                                        "INSERT INTO users (email, senha, user, token) VALUES (?, ?, ?, ?, ?)",
+                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id]
                                     )
                                    } 
                                 setTimeout(() => {
                                     // Passar os dados de usuário para tela de Menu
-                                    setSpinnerVisible(false)
+                                    
+                                    globalVariables.userId = res.data.user.id
                                     navigation.navigate("Menu", {dataUser: res.data.user})
-                                }, 500)
-                            }
+                                }, 500)*/
+                            setSpinnerVisible(false)
+                        }
                         )
                     }); 
                 }

@@ -37,3 +37,23 @@ export async function getQueries(memberId){
         return error
     }
 }
+
+export async function updateUser(userData){
+    try{
+        const response = await api.put('/users', {
+            name: userData.name,
+            email: userData.email,
+            oldPassword: userData.senhaAtual,
+            password: userData.senhaNova,
+            confirmPassword: userData.senhaNovaConf
+        })
+
+        return response  
+
+    }
+
+    catch(error){
+        return error
+    }
+}
+

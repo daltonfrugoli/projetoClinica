@@ -9,6 +9,7 @@ import { styles } from "./Footer.style";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../../App"; 
+import globalVariables from "../../services/globalVariables"; 
 
 
 export const Footer = (props) => {
@@ -21,13 +22,11 @@ export const Footer = (props) => {
         <View style={styles.footerContainer}>
             <TouchableOpacity 
             onPress={ () => {
-                setPress('home')
-
                 //esta seção trás de volta os dados necessários para carregamento da pag.
                 db.transaction((qr) => {
                     qr.executeSql(
-                        "SELECT * FROM users",
-                        [],
+                        "SELECT * FROM users WHERE userId = ?",
+                        [globalVariables.userId],
                         (qr2, results) => {
                             
                             //conversão dos dados de string para objeto
@@ -47,7 +46,7 @@ export const Footer = (props) => {
 
             <TouchableOpacity 
             onPress={ () => {
-                setPress('user')
+                navigation.navigate("UserCadastro")
             }}
             style = {styles.footerButtons}
             disabled = {disable}
