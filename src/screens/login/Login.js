@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect} from "react";
 
 import {
     ScrollView, 
@@ -11,7 +11,7 @@ import { FormPaciente } from "../../components/formPacientes/FormPaciente.js";
 import { signIn }  from "../../services/Http.js" 
 import Spinner from "react-native-loading-spinner-overlay";
 import { db } from "../../App.js";
-import globalVariables from "../../services/globalVariables.js";
+import globalVariables from "../../services/GlobalVariables";
 
  
 
@@ -20,6 +20,18 @@ export function Login({navigation}){
 
     const [printForm, setPrintForm] = useState('client');
     const [spinnerVisible, setSpinnerVisible] = useState(false);
+
+    useEffect(() => {
+        db.transaction((qr) => {
+            qr.executeSql(
+                "SELECT email, senha FROM users order by lastLoggedIn desc",
+                [],
+                (_, results) => {
+                    submitData(results.rows.raw()[0].email, results.rows.raw()[0].senha)
+                }
+            )
+        })
+    },[])
 
     const mudarPrint = (dadoQueVemDoComponente) => {
         setPrintForm(dadoQueVemDoComponente)
@@ -46,17 +58,17 @@ export function Login({navigation}){
                             [res.data.user.id],
                             (qr2, results) => { console.log(results.rows.raw())
                                 //Aqui falta converter o objeto "res.data.user" para string antes de salvar no SQLite
-                               /* if(results.rows.length > 0){
+                                if(results.rows.length > 0){
                                     qr2.executeSql(
-                                        "UPDATE users SET email = ?, senha = ?, user = ?, token = ?, userId = ?",
-                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id]
+                                        "UPDATE users SET email = ?, senha = ?, user = ?, token = ?, userId = ?, lastLoggedIn = ? WHERE userId = ?",
+                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id, new Date().toString(), res.data.user.id]
                                     )
 
                                 } else {
 
                                     qr2.executeSql(
-                                        "INSERT INTO users (email, senha, user, token) VALUES (?, ?, ?, ?, ?)",
-                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id]
+                                        "INSERT INTO users (email, senha, user, token, userId, lastLoggedIn) VALUES (?, ?, ?, ?, ?, ?)",
+                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id, new Date().toString()]
                                     )
                                    } 
                                 setTimeout(() => {
@@ -64,7 +76,7 @@ export function Login({navigation}){
                                     
                                     globalVariables.userId = res.data.user.id
                                     navigation.navigate("Menu", {dataUser: res.data.user})
-                                }, 500)*/
+                                }, 500)
                             setSpinnerVisible(false)
                         }
                         )

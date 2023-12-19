@@ -18,7 +18,7 @@ import { CommonActions, useIsFocused } from "@react-navigation/native";
 import { db } from "../../App";
 import Spinner from "react-native-loading-spinner-overlay";
 import { updateUser } from "../../services/Http";
-import globalVariables from "../../services/globalVariables";
+import globalVariables from "../../services/GlobalVariables";
 
 export function UserCadastro({navigation}){
 
@@ -27,9 +27,9 @@ export function UserCadastro({navigation}){
     const [emailAtual, setEmailAtual] = useState()
     const [nomeCompleto, setNomeCompleto] = useState()
     const [email, setEmail] = useState()
-    const [senhaAtual, setSenhaAtual] = useState()
-    const [senhaNova, setSenhaNova] = useState()
-    const [senhaNovaConf, setSenhaNovaConf] = useState()
+    const [senhaAtual, setSenhaAtual] = useState("")
+    const [senhaNova, setSenhaNova] = useState("")
+    const [senhaNovaConf, setSenhaNovaConf] = useState("")
     const formRef = useRef(null)
     const [spinnerVisible, setSpinnerVisible] = useState(false)
     
@@ -69,7 +69,7 @@ export function UserCadastro({navigation}){
         if(senhaNova != senhaNovaConf){
             return validationAlert("Atenção", '\"Nova senha\" e \"Confirmar nova senha\" não coincidem')
         }
-        if(senhaNova.length < 6){
+        if((senhaNova.length < 6 && senhaNovaConf.length < 6 ) && senhaAtual.length > 0){
             return validationAlert("Atenção", "Sua nova senha deve conter no mínimo 6 caracteres")
         }
 
@@ -105,7 +105,7 @@ export function UserCadastro({navigation}){
                                 db.transaction((qr) => {
                                     qr.executeSql(
                                         
-                                        "UPDATE users SET user = ?, email = ?, senha = ?, WHERE userId = ?",
+                                        "UPDATE users SET user = ?, email = ?, senha = ? WHERE userId = ?",
                                         [JSON.stringify(obj), email, senhaNova, globalVariables.userId]
                                     ), []
                                 })
@@ -198,7 +198,30 @@ export function UserCadastro({navigation}){
                 >
                     <Text style = { styles.upButtonText }>Salvar alterações</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style = {styles.exitButton}>
+                <TouchableOpacity 
+                style = {styles.exitButton}
+                onPress={() => {
+                    Alert.alert("Atenção", "deseja encerrar o aplicativo?",
+                    [
+                        {
+                            text: 'cancelar'
+                        },
+                        {
+                            text: 'sair',
+                            onPress: () => {
+                                db.transaction((qr) => {
+                                    qr.executeSql(
+                                        "DELETE FROM users where userId = ?",
+                                        [globalVariables.userId]
+                                    ), []
+                                })
+
+                                navigation.navigate("Login")
+                            }
+                        }
+                    ])
+                }}
+                >
                     <Text style = { styles.upButtonText }>Sair da conta</Text>
                 </TouchableOpacity>
             </View> 

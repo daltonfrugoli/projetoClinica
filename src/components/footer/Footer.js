@@ -9,7 +9,7 @@ import { styles } from "./Footer.style";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../../App"; 
-import globalVariables from "../../services/globalVariables"; 
+import globalVariables from "../../services/GlobalVariables"; 
 
 
 export const Footer = (props) => {
