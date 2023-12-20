@@ -69,3 +69,13 @@ export async function listAppointments(userId){
         return error
     }
 } 
+
+export async function appointmentsCancel(appointmentId){
+    try{
+        const response = await api.delete('/appointments/' + appointmentId)
+    }
+
+    catch(error){
+        return error
+    }
+}
