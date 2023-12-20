@@ -16,13 +16,23 @@ import { styles } from "./Agendamento.style"
 import { listAppointments } from "../../services/Http";
 import globalVariables from "../../services/GlobalVariables";
 import { Card } from "../../components/consultasCard/Card";
+import Spinner from "react-native-loading-spinner-overlay";
+
+
+
 
 export function Agendamento({navigation}){
     
     
-    const [appointmentsData, setAppointmentsData] = useState()
+    const [appointmentsData, setAppointmentsData] = useState([])
+    const [spinnerIsVisible, setSpinnerIsVisible] = useState(false)
+     
 
     useEffect(() => {
+        listAllAppointments()
+    },[])
+
+    function listAllAppointments(){
         listAppointments(globalVariables.userId)
                 .then((res) => {
                     console.log(res.status)
@@ -33,7 +43,7 @@ export function Agendamento({navigation}){
                         Alert.alert("Atenção", res.data.error)
                     }
                 })
-    },[])
+    }
 
     
 
@@ -67,6 +77,16 @@ export function Agendamento({navigation}){
         return console.log('new appointment')
     }
 
+    function attList(){
+        setAppointmentsData([])
+        setSpinnerIsVisible(true)
+        setTimeout(() => {
+            listAllAppointments()
+            setSpinnerIsVisible(false)
+        }, 3000)
+        
+    }
+
 
     const renderItem = ({item, index}) => {
         return(
@@ -76,6 +96,8 @@ export function Agendamento({navigation}){
                 date = {item.date}
                 cancelable = {item.cancelable}
                 past = {item.past}
+                id = {item.id}
+                updateList = {() => attList()}
                 />
           )
     }
@@ -90,7 +112,9 @@ export function Agendamento({navigation}){
             keyExtractor = {item => item.id}
             renderItem = {renderItem}
             numColumns = {1}
+            //extraData={appointmentsData}
             />
+            <Spinner visible = {spinnerIsVisible}/>
         </SafeAreaView>
     )
 }

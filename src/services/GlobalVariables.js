@@ -1,5 +1,8 @@
-const globalVariables = {
+export const globalVariables = {
     userId: null
 }
 
 export default globalVariables
+
+
+

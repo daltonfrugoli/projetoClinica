@@ -3,21 +3,45 @@ import React from "react";
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
 
 import { styles } from "./AppointmentStatus.style"
+import { appointmentsCancel } from "../../services/Http";
 
 export const AppointmentStatus = (props) => {
 
 
     const alterar = () => {
-        var date = new Date()
-        console.log(date.toLocaleDateString())
+       
     }
 
+    
     const cancelar = () => {
-        console.log('cancelar consulta')
+        Alert.alert("Atenção!", "Você tem certeza que deseja cancelar a consulta?",
+        [
+            {
+                text: 'Não',
+            },
+            {
+                text: 'Sim',
+                onPress: () => {
+                     appointmentsCancel(props.id)
+                    .then(() => {
+                        props.updateList()
+                    })
+
+                    .catch((error) => {
+                        validationAlert("Atenção", "Algo deu errado. tente novamente mais tarde!")
+                    })
+                }
+            }
+           
+        ]
+        )
+
+       
     }
 
     if (props.past == true) {
