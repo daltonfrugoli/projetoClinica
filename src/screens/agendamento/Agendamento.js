@@ -6,7 +6,7 @@ import {
     Text,
     TouchableOpacity,
     Alert,
-    FlatList
+    FlatList,
 } from "react-native"
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -17,6 +17,7 @@ import { listAppointments } from "../../services/Http";
 import globalVariables from "../../services/GlobalVariables";
 import { Card } from "../../components/consultasCard/Card";
 import Spinner from "react-native-loading-spinner-overlay";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -73,8 +74,7 @@ export function Agendamento({navigation}){
     }
 
     const newAppointment = () => {
-
-        return console.log('new appointment')
+        navigation.navigate("NewAppointment")
     }
 
     function attList(){
@@ -115,6 +115,7 @@ export function Agendamento({navigation}){
             //extraData={appointmentsData}
             />
             <Spinner visible = {spinnerIsVisible}/>
+            <Footer/>
         </SafeAreaView>
     )
 }

@@ -13,7 +13,7 @@ export const Card = (props) => {
 
 
     const navigation = useNavigation()
-
+    
 
     return(
         <TouchableOpacity
@@ -23,7 +23,7 @@ export const Card = (props) => {
         }}
         >
             <Ionicons name = {"person"} style = {{fontSize: 80, marginBottom: 10, color: '#ffffff'}}></Ionicons>
-            <Text style = {styles.buttonNames}> {props.name} </Text>
+            <Text style = {styles.buttonNames}> {props.data.item.name} </Text>
         </TouchableOpacity>
     )
 }
