@@ -17,6 +17,7 @@ import { Equipe } from "./screens/equipe/Equipe";
 import { Historico } from "./screens/historico/Historico";
 import { EquipeDetails } from "./screens/equipeDetails/EquipeDetails";
 import { UserCadastro }  from "./screens/cadastro/UserCadastro";
+import { NewAppointment } from "./screens/newAppointment/NewAppointment"
 import SQLite from "react-native-sqlite-storage";
 
 
@@ -59,6 +60,7 @@ function App() {
         <Stack.Screen name = "Equipe" component = { Equipe }/>
         <Stack.Screen name = "EquipeDetails" component = { EquipeDetails }/>
         <Stack.Screen name = "UserCadastro" component = { UserCadastro }/>
+        <Stack.Screen name = "NewAppointment" component = { NewAppointment }/>
       </Stack.Navigator>
     </NavigationContainer>  
   )

@@ -73,6 +73,33 @@ export async function listAppointments(userId){
 export async function appointmentsCancel(appointmentId){
     try{
         const response = await api.delete('/appointments/' + appointmentId)
+
+        return response
+    }
+
+    catch(error){
+        return error
+    }
+}
+
+
+export async function datesList(){
+    try{
+        const response = await api.get('/alldates');
+
+        return response 
+    }
+
+    catch(error){
+        return error
+    }
+}
+
+export async function timetableList(memberId, date){
+    try{
+        const response = await api.get('/providers/' + memberId + '/available', { date: date });
+
+        return response 
     }
 
     catch(error){
