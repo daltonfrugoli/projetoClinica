@@ -27,6 +27,34 @@ export const styles = StyleSheet.create({
         color: '#ffffff',
         marginLeft: 20,
         fontSize: 18
+    },
+    buttonMenu: {
+        backgroundColor: '#2B5353',
+        marginHorizontal: 10,
+        justifyContent: 'center',
+        width: 70,
+        height: 50,
+        borderColor: '#ffffff',
+        borderRadius: 10,
+        borderWidth: 2,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    buttonNames: {
+        fontSize: 15,
+        color: '#ffffff',
+    },
+    buttonTime: {
+        backgroundColor: '#2B5353',
+        marginHorizontal: 10,
+        justifyContent: 'center',
+        width: 70,
+        height: 30,
+        borderColor: '#ffffff',
+        borderRadius: 8,
+        borderWidth: 2,
+        alignItems: 'center',
+        marginTop: 10,
     }
 
 })

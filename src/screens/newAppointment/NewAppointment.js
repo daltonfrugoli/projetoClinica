@@ -15,9 +15,9 @@ import { Footer } from "../../components/footer/Footer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { getMembers } from "../../services/Http";
 import { Card } from "../../components/membersListCard/Card";
-import { DateCard } from "../../components/dateListCard/DateCard";
 import { datesList } from "../../services/Http";
 import { timetableList } from "../../services/Http";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export function NewAppointment({navigation}){
 
@@ -54,16 +54,32 @@ export function NewAppointment({navigation}){
             color = {memberSelected} 
             name = {item.item.name} 
             id = {item.item.id} 
-            selected = {(selected) => changeMember(selected)} 
+            selected = {(selected, hidelist) => resetDates(selected, hidelist)} 
             />
         )
 
+    }
+
+    const [spinnerVisible, setSpinnerVisible] = useState(false)
+
+    function resetDates(selected, hidelist){
+        setShowDates(hidelist)
+        setSpinnerVisible(true)
+        setDateSelectedId(null)
+        setShowTime(hidelist)
+        setTimeout(() => {
+            changeMember(selected)
+            setSpinnerVisible(false)
+        }, 500)
     }
 
     //contém as datas disponíveis 
     const [dates, setDates] = useState([])
 
     function changeMember(selected){
+
+        console.log('changeMember chamado')
+        console.log(selected)
 
         datesList()
         .then((res) => {
@@ -78,6 +94,8 @@ export function NewAppointment({navigation}){
 
         setShowDates(true)
         setMemberSelected(selected)
+
+        
     }
 
     const [showDates, setShowDates] = useState(false)
@@ -108,13 +126,24 @@ export function NewAppointment({navigation}){
     //contém os cards de datas disponiveis 
     const renderDates = (item, index) => {
 
+     
+
+        const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+        const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+        const appointmentDate = new Date(item.item.name)
+    
+        
+
         return(
-           <DateCard
-                color = {dateSelectedId}
-                id = {item.item.id}
-                date = {item.item.name}
-                selected = {(dateButtonId, date) => loadTimetable(dateButtonId, date)}
-           />
+            <TouchableOpacity
+            style = {[styles.buttonMenu, {backgroundColor: dateSelectedId == item.item.id ? '#FF4500' : '#2B5353'}]}
+            onPress={() => {
+                loadTimetable(item.item.id, appointmentDate)
+            }}
+            >
+                <Text style = {[styles.buttonNames, {fontWeight: 'bold'}]}>{appointmentDate.getDate()}/{months[appointmentDate.getMonth()]}</Text>
+                <Text style = {styles.buttonNames}> {weekDays[appointmentDate.getDay()]} </Text>
+            </TouchableOpacity>
         )
     }
 
@@ -127,27 +156,80 @@ export function NewAppointment({navigation}){
 
         setDateSelectedId(dateButtonId) 
         setDateSelected(date)
+        setShowTime(false)
+        setSpinnerVisible(true)
 
-        /*setTimeout(() => {
-            timetableList(botaoSelecionado, dateSelected)
-            .then((res) => {
-                console.log(res)
-            })
-
-            .catch((error) => {
-                console.log(error);
-                Alert.alert('Atenção!', 'Ocorreu um erro inesperado, por favor tente novamente mais tarde!')
-            })
-        },3000)*/
-        setTimeout(() => {
-            buscarHorarios(memberSelected, dateSelected)
-        }, 2000);
+        
+        setTimeout(()=> {
+        buscarHorarios(dateButtonId, date)
+        }, 500)
         
     }
 
+    const [times, setTimes] = useState()
+
     //apenas printa o que está dentro de memberSelected e dateSelected
     function buscarHorarios(idSelect, dateSelect){
+        
         console.log(idSelect, dateSelect)
+        setSpinnerVisible(false)
+
+        timetableList(memberSelected, dateSelect.getTime())
+        .then((res) => {
+            console.log(res.data)
+            setTimes(res.data)
+        })
+
+        .catch((error) => {
+            console.log(error);
+            Alert.alert('Atenção!', 'Ocorreu um erro inesperado, por favor tente novamente mais tarde!')
+        })
+
+        setShowTime(true)
+    }
+
+    const [showTime, setShowTime] = useState(false) 
+
+    const TerceiraLista = () => {
+
+        if(showTime == true){ 
+            return (
+                <View>
+                    <Text style = {styles.listsHeader}>Datas disponíveis</Text>
+                    <FlatList 
+                        horizontal = {true}
+                        contentContainerStyle = {{marginLeft: 10, marginBottom: 25}}
+                        data = {times}
+                        keyExtractor = {item => item.time}
+                        renderItem = {renderTimes}
+                    />
+                </View>
+            )
+        }
+    }
+
+    const [timeSelected, setTimeSelected] = useState()
+
+    const renderTimes = (item, index) => {
+
+
+        return(
+            <TouchableOpacity
+            style = {[
+                styles.buttonTime, 
+                {backgroundColor: timeSelected == item.item.time ? '#FF4500' : '#2B5353'}, {opacity: item.item.available == true ? 1 : 0.5}
+                
+            ]}
+            onPress={() => {
+                console.log(item.item.time)
+                setTimeSelected(item.item.time)
+            }}
+            disabled = {item.item.available == true ? false : true}
+            >
+                <Text style = {[styles.buttonNames, {fontWeight: 'bold'}]}>{item.item.time}</Text>
+                
+            </TouchableOpacity>
+        )
     }
 
 
@@ -174,9 +256,11 @@ export function NewAppointment({navigation}){
                 keyExtractor = {item => item.id}
                 renderItem = {renderMembers}
             />
-            <SegundaLista/>
+            {showDates == true ? SegundaLista() : null}
+            {showTime == true ? TerceiraLista() : null}
             </ScrollView>
             <Footer/>
+            <Spinner visible = {spinnerVisible}/>
         </SafeAreaView>
     )
 }
