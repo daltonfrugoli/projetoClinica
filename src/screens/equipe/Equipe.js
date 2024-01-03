@@ -29,7 +29,8 @@ export function Equipe({navigation}){
         })
 
         .catch((error) => {
-            Alert.alert('Atenção!', error.error)
+            console.log(error.error)
+            Alert.alert('Atenção!', 'erro na tela de equipe')
         })
     }, [])
 
