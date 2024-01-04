@@ -1,6 +1,7 @@
 import api from "./Api" 
 
 export async function signIn(email, senha){
+
     try{
         const response = await api.post("/sessions", {email: email, password: senha})
         api.setHeader("Authorization", "Bearer " + response.data.token )
@@ -14,6 +15,7 @@ export async function signIn(email, senha){
 
 //seção para buscar membrios da equipe
 export async function getMembers(){
+
     try{
         const response = await api.get("/members")
        
@@ -27,6 +29,7 @@ export async function getMembers(){
 
 //seção para buscar número de consultas 
 export async function getQueries(memberId){
+
     try{
         const response = await api.get('/appointments/' + memberId);
 
@@ -39,6 +42,7 @@ export async function getQueries(memberId){
 }
 
 export async function updateUser(userData){
+
     try{
         const response = await api.put('/users', {
             name: userData.name,
@@ -58,6 +62,7 @@ export async function updateUser(userData){
 }
 
 export async function listAppointments(userId){
+
     try{
         const response = await api.get('/appointments', {
         userId: userId})
@@ -71,6 +76,7 @@ export async function listAppointments(userId){
 } 
 
 export async function appointmentsCancel(appointmentId){
+
     try{
         const response = await api.delete('/appointments/' + appointmentId)
 
@@ -84,6 +90,7 @@ export async function appointmentsCancel(appointmentId){
 
 
 export async function datesList(){
+
     try{
         const response = await api.get('/alldates');
 
@@ -96,6 +103,7 @@ export async function datesList(){
 }
 
 export async function timetableList(memberId, date){
+
     try{
         const response = await api.get('/providers/' + memberId + '/available', { date: date });
 
@@ -105,4 +113,18 @@ export async function timetableList(memberId, date){
     catch(error){
         return error
     }
+}
+
+export async function saveAppointment(userId, memberId, date){
+
+    try{
+        const response = await api.post('/appointments', { userId: userId, memberId: memberId, date: date });
+
+        return response
+    }
+
+    catch(error){
+        return error
+    }
+
 }

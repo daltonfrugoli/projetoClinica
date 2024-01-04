@@ -15,7 +15,7 @@ export const Card = (props) => {
         <TouchableOpacity
         style = {[styles.buttonMenu, {backgroundColor: props.color == props.id ? '#FF4500' : '#2B5353'}]}
         onPress={() => {
-            props.selected(props.id, false) 
+            props.selected(props.id) 
         }}
         >
             <Ionicons name = {"person-circle"} style = {{fontSize: 55, marginBottom: 10, color: '#ffffff', marginHorizontal: 10}}/>

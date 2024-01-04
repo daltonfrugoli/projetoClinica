@@ -17,7 +17,7 @@ import { listAppointments } from "../../services/Http";
 import globalVariables from "../../services/GlobalVariables";
 import { Card } from "../../components/consultasCard/Card";
 import Spinner from "react-native-loading-spinner-overlay";
-import { useNavigation } from "@react-navigation/native";
+
 
 
 
@@ -45,8 +45,6 @@ export function Agendamento({navigation}){
                     }
                 })
     }
-
-    
 
     const HeaderList = () => {
 
