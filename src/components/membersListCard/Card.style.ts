@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 90,
         borderRadius: 15,
-        marginHorizontal: 10
+        marginRight: 20
     },
     buttonNames: {
         fontSize: 15,
