@@ -10,7 +10,7 @@ import {
 } from "react-native"
 
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { CommonActions } from "@react-navigation/native";
+import { CommonActions, useIsFocused } from "@react-navigation/native";
 import { Footer } from "../../components/footer/Footer";
 import { styles } from "./Agendamento.style"
 import { listAppointments } from "../../services/Http";
@@ -27,18 +27,21 @@ export function Agendamento({navigation}){
     
     const [appointmentsData, setAppointmentsData] = useState([])
     const [spinnerIsVisible, setSpinnerIsVisible] = useState(false)
-     
+    const isFocused = useIsFocused()
+    
 
     useEffect(() => {
+        if(isFocused){
         listAllAppointments()
-    },[])
+        }
+    },[isFocused])
 
     function listAllAppointments(){
         listAppointments(globalVariables.userId)
                 .then((res) => {
                     console.log(res.status)
                     if (res.status == 200) {     
-                        setAppointmentsData(res.data) 
+                        setAppointmentsData(res.data.reverse()) 
                         console.log(res.data)    
                     } else {
                         Alert.alert("Atenção", res.data.error)
@@ -90,6 +93,7 @@ export function Agendamento({navigation}){
         return(
                 <Card 
                 name = {item.member.name}
+                memberId = {item.member.id}
                 specialization = {item.member.specialization.name}
                 date = {item.date}
                 cancelable = {item.cancelable}
@@ -99,6 +103,8 @@ export function Agendamento({navigation}){
                 />
           )
     }
+
+   
 
 
     return(

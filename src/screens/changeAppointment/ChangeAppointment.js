@@ -9,7 +9,7 @@ import {
     ScrollView
 } from "react-native";
 
-import { styles } from "./NewAppointment.style";
+import { styles } from "./ChangeAppointment.style";
 import { CommonActions } from "@react-navigation/native";
 import { Footer } from "../../components/footer/Footer";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,8 +21,14 @@ import { saveAppointment } from "../../services/Http";
 import Spinner from "react-native-loading-spinner-overlay";
 import Modal from "react-native-modal"
 import globalVariables from "../../services/GlobalVariables";
+import { attAppointment } from "../../services/Http";
 
-export function NewAppointment({navigation}){
+export function ChangeAppointment({navigation, route}){
+
+    console.log("Está chegando:")
+    console.log('-------------------')
+    console.log(route.params)
+
 
     //contém infos dos profissionais disponíveis
     const [membersData, setMembersData] = useState([])
@@ -39,6 +45,7 @@ export function NewAppointment({navigation}){
         getMembers()
         .then((res) => {
             setMembersData(res.data)
+            loadDates()
             console.log(res.data)
         })
 
@@ -49,7 +56,9 @@ export function NewAppointment({navigation}){
     }
 
     //contém o id do profissional selecionado  
-    const [memberSelected, setMemberSelected] = useState(null)
+    const memberSelected = (route.params.member)
+
+    
 
     
     //lista de cards que será carregada com profissionais disponíveis 
@@ -60,23 +69,10 @@ export function NewAppointment({navigation}){
             color = {memberSelected} 
             name = {item.item.name} 
             id = {item.item.id} 
-            selected = {(selected) => resetDates(selected)} 
+            //selected = {(selected) => resetDates(selected)} 
+            disabled = {true}
             />
         )
-    }
-
-    //reseta as listas quando um novo dentista é selecionado
-    function resetDates(selected){
-
-        setShowDates(false)
-        setSpinnerVisible(true)
-        setDateSelectedId(null)
-        setShowTime(false)
-
-        setTimeout(() => {
-            changeMember(selected)
-            setSpinnerVisible(false)
-        }, 500)
     }
 
 
@@ -85,7 +81,7 @@ export function NewAppointment({navigation}){
 
 
     //carrega as datas disponíveis
-    function changeMember(selected){
+    function loadDates(){
 
         datesList()
         .then((res) => {
@@ -106,7 +102,7 @@ export function NewAppointment({navigation}){
         })
 
         setShowDates(true)
-        setMemberSelected(selected)   
+        
     }
 
 
@@ -284,7 +280,7 @@ export function NewAppointment({navigation}){
         >
             <View style = {styles.modal}>
                 <Text style = {styles.modalTitle}>Atenção</Text>
-                <Text style = {styles.modalText}>Consulta agendada com sucesso!</Text>
+                <Text style = {styles.modalText}>Consulta alterada com sucesso!</Text>
                 <TouchableOpacity
                     onPress={() => {
                         setModalIsVisible(false)
@@ -300,7 +296,8 @@ export function NewAppointment({navigation}){
 
     function agendamento(userId, memberId, date){
 
-        saveAppointment(userId, memberId, date.replace("+00:00", "-03:00"))
+        console.log(route.params.id, userId, memberId, date.replace("+00:00", "-03:00"))
+        attAppointment(route.params.id, userId, memberId, date.replace("+00:00", "-03:00"))
         .then(() => {
             setModalIsVisible(true)
         })
@@ -309,8 +306,6 @@ export function NewAppointment({navigation}){
             console.log(error);
             Alert.alert('Atenção!', 'Ocorreu um erro inesperado, por favor tente novamente mais tarde!')
         })
-
-        console.log(userId, memberId, date.replace("+00:00", "-03:00"))
     }
 
 
@@ -325,7 +320,7 @@ export function NewAppointment({navigation}){
                 >
                     <Ionicons name = "arrow-back-outline" style = {styles.goBackArrow}></Ionicons>
                 </TouchableOpacity>
-                <Text style = {styles.topText}>Agendar Consultas</Text>
+                <Text style = {styles.topText}>Alterar Consultas</Text>
             </View>
             
             <View style = {{marginHorizontal: 20}}>
@@ -349,7 +344,7 @@ export function NewAppointment({navigation}){
                 agendamento(globalVariables.userId, memberSelected, dataCompleta)
             }}
             >
-                <Text style = {styles.submitButtonText}>Realizar agendamento</Text>
+                <Text style = {styles.submitButtonText}>Alterar consulta</Text>
             </TouchableOpacity>
             <Footer/>
             <Spinner visible = {spinnerVisible}/>
