@@ -9,12 +9,18 @@ import {
 
 import { styles } from "./AppointmentStatus.style"
 import { appointmentsCancel } from "../../services/Http";
+import { useNavigation } from "@react-navigation/native";
+
 
 export const AppointmentStatus = (props) => {
 
 
+    const navigation = useNavigation()
+
+
     const alterar = () => {
-       
+       navigation.navigate("ChangeAppointment", {date: props.date, member: props.member, id: props.id})
+       console.log("id aqui:" + props.id)
     }
 
     

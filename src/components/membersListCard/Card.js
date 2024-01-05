@@ -13,7 +13,8 @@ export const Card = (props) => {
 
     return(
         <TouchableOpacity
-        style = {[styles.buttonMenu, {backgroundColor: props.color == props.id ? '#FF4500' : '#2B5353'}]}
+        disabled = {props.disabled}
+        style = {[styles.buttonMenu, {backgroundColor: props.color == props.id ? '#FF4500' : '#2B5353', opacity: props.disabled ? 0.5 : 1}]}
         onPress={() => {
             props.selected(props.id) 
         }}
