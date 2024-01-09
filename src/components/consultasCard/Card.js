@@ -16,7 +16,7 @@ export const Card = (props) => {
     const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
     var today = new Date(props.date)
     var horario = today.toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}).slice(11,16)
-    console.log(horario)
+
 
     function attList(){
         props.updateList()
@@ -43,7 +43,7 @@ export const Card = (props) => {
                         <Text style = {{color: '#ffffff', fontWeight: 'bold'}}>{horario}h</Text>
                     </View>
                 </View>
-                <AppointmentStatus past = {props.past} cancelable = {props.cancelable} date = {props.date} id = {props.id} updateList = {() => attList()} member = {props.memberId}/>
+                <AppointmentStatus past = {props.past} cancelable = {props.cancelable} date = {props.date} dateId = {props.dateId} id = {props.id} updateList = {() => attList()} member = {props.memberId} itemFull = {props.itemFull}/>
             </View>
         </View>
     )

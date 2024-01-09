@@ -25,9 +25,7 @@ import { attAppointment } from "../../services/Http";
 
 export function ChangeAppointment({navigation, route}){
 
-    console.log("Está chegando:")
-    console.log('-------------------')
-    console.log(route.params)
+ 
 
 
     //contém infos dos profissionais disponíveis
@@ -35,7 +33,8 @@ export function ChangeAppointment({navigation, route}){
 
 
     useEffect(() => {
-        loadMemberList()    
+        loadMemberList()   
+        
     },[])
 
 
@@ -46,7 +45,6 @@ export function ChangeAppointment({navigation, route}){
         .then((res) => {
             setMembersData(res.data)
             loadDates()
-            console.log(res.data)
         })
 
         .catch((error) => {
@@ -56,7 +54,7 @@ export function ChangeAppointment({navigation, route}){
     }
 
     //contém o id do profissional selecionado  
-    const memberSelected = (route.params.member)
+    const memberSelected = route.params.member
 
     
 
@@ -68,8 +66,7 @@ export function ChangeAppointment({navigation, route}){
             <Card 
             color = {memberSelected} 
             name = {item.item.name} 
-            id = {item.item.id} 
-            //selected = {(selected) => resetDates(selected)} 
+            id = {item.item.id}  
             disabled = {true}
             />
         )
@@ -80,17 +77,24 @@ export function ChangeAppointment({navigation, route}){
     const [dates, setDates] = useState([])
 
 
+    //variavel que permite a exibição da segunda lista
+    const [showDates, setShowDates] = useState(false)
+
+
     //carrega as datas disponíveis
     function loadDates(){
 
         datesList()
         .then((res) => {
-            console.log(res.data)
             var currentDate = new Date()
             var availableDates = []
             res.data.map((date, index) => {
                 if(Date.parse(date.name) >= currentDate){
                     availableDates.push(date)
+                }
+
+                if(route.params.date.slice(0,10) == date.name.slice(0,10)){
+                    setDateSelectedId(date.id)
                 }
             })
             setDates(availableDates)
@@ -102,16 +106,18 @@ export function ChangeAppointment({navigation, route}){
         })
 
         setShowDates(true)
-        
+        // loadTimetable(dateSelectedId, appointmentDate)
+          
     }
 
 
-    //variavel que permite a exibição da segunda lista
-    const [showDates, setShowDates] = useState(false)
+    
 
 
-    //componente que contém a segunda lista com os cards de datas 
+    /*componente que contém a segunda lista com os cards de datas 
     const secondList = () => {
+
+        console.log("secondList_true")
 
         return (
             <View style = {{marginHorizontal: 20}}>
@@ -125,13 +131,18 @@ export function ChangeAppointment({navigation, route}){
                 />
             </View>
         )
-    }
+    }*/
 
 
     //contem o ID da data selecionada para mudança de cor do card
     const [dateSelectedId, setDateSelectedId] = useState(null)
 
-    
+    //contém a data selecionada 
+    const [dateSelected, setDateSelected] = useState(route.params.date)
+
+    const [dateColor, setDateColor] = useState(route.params.date)
+
+
     //cards de datas disponiveis 
     const renderDates = (item, index) => {
 
@@ -139,15 +150,18 @@ export function ChangeAppointment({navigation, route}){
         const appointmentDate = new Date(item.item.name)
         var dayName = weekDays[appointmentDate.getDay()]
         var dateString = appointmentDate.toLocaleDateString("pt-BR",{timeZone:"UTC"}).slice(0,5)
-       
+        var dataConvertida = dateColor.slice(0,10)
+        var dataDoItem = item.item.name.slice(0,10)
 
+
+        
+      
+       
         return(
             <TouchableOpacity
-            style = {[styles.buttonMenu, {backgroundColor: dateSelectedId == item.item.id ? '#FF4500' : '#2B5353'}]}
+            style = {[styles.buttonMenu, {backgroundColor: dataConvertida == dataDoItem ? '#FF4500' : '#2B5353'}]}
             onPress={() => {
                 loadTimetable(item.item.id, appointmentDate)
-                console.log('data:-----------')
-                console.log(appointmentDate)
             }}
             >
                 <Text style = {[styles.buttonNames, {fontWeight: 'bold'}]}>{dateString}</Text>
@@ -157,21 +171,19 @@ export function ChangeAppointment({navigation, route}){
     }
 
 
-    //contém a data selecionada 
-    const [dateSelected, setDateSelected] = useState({})
-
-
     //altera a data selecionada e o ID da data selecionada
-    function loadTimetable(dateButtonId, date){
+    function loadTimetable(dateId, date){
 
         setTimeSelected(null)
-        setDateSelectedId(dateButtonId) 
-        setDateSelected(date)
-        setShowTime(false)
+        setDateSelected(date) 
+        setDateSelectedId(dateId)
+        setDateColor(date.toJSON())
+       
         setSpinnerVisible(true)
+        
 
         setTimeout(()=> {
-            searchTimetables(dateButtonId, date)
+            searchTimetables(dateId, date)
         }, 500)
         
     }
@@ -183,15 +195,16 @@ export function ChangeAppointment({navigation, route}){
 
     //busca os horários disponíveis para consulta 
     function searchTimetables(idSelect, dateSelect){
+
         
-        console.log(idSelect, dateSelect)
+        console.log(dateSelect)
         setSpinnerVisible(false)
 
         timetableList(memberSelected, dateSelect.getTime())
         .then((res) => {
             var timeTables = res.data.filter(timeTable => timeTable.available == true)
             setTimes(timeTables)
-            console.log(timeTables)
+            
         })
 
         .catch((error) => {
@@ -204,13 +217,13 @@ export function ChangeAppointment({navigation, route}){
 
 
     //controla a exibição da lista de horários
-    const [showTime, setShowTime] = useState(false) 
+    const [showTime, setShowTime] = useState(true) 
 
     //contém o o horário selecionado
     const [timeSelected, setTimeSelected] = useState()
 
 
-    //lista de horários disponiveis
+    /*lista de horários disponiveis
     const ThirdList = () => {
 
         return (
@@ -228,7 +241,7 @@ export function ChangeAppointment({navigation, route}){
             </View>
           
         )
-    }
+    }*/
 
 
     //cards de horários
@@ -241,7 +254,6 @@ export function ChangeAppointment({navigation, route}){
                 {backgroundColor: timeSelected == item.item.time ? '#FF4500' : '#2B5353'}  
             ]}
             onPress={() => {
-                console.log(item.item.time)
                 setTimeSelected(item.item.time)
                 setDataCompleta(item.item.value)
             }}>
@@ -333,15 +345,39 @@ export function ChangeAppointment({navigation, route}){
                     renderItem = {renderMembers}
                 />
             </View>
-            {showDates == true ? secondList() : null}
-            {showTime == true ? ThirdList() : null}
+            
+            <View style = {{marginHorizontal: 20}}>
+                <Text style = {styles.listsHeader}>Datas disponíveis</Text>
+                <FlatList 
+                    horizontal = {true}
+                    contentContainerStyle = {{marginBottom: 25}}
+                    data = {dates}
+                    keyExtractor = {item => item.id}
+                    renderItem = {renderDates}
+                />
+            </View>
+
+            <View style = {{marginHorizontal: 20}}>
+                <Text style = {styles.listsHeader}>Horários disponíveis</Text>
+                {times ? null : <Text style = {{color: '#ffffff', marginTop: 10, opacity: 0.5}}>Nenhum horário disponível...</Text>}
+                <FlatList 
+                    horizontal = {true}
+                    contentContainerStyle = {{marginBottom: 25}}
+                    data = {times}
+                    keyExtractor = {item => item.time}
+                    renderItem = {renderTimes}
+                />
+            </View>
+            
             </ScrollView> 
             <TouchableOpacity 
             style = {[styles.submitButton,{opacity: memberSelected && dateSelected && timeSelected ? 1 : 0.5}]}
             disabled = {memberSelected && dateSelected && timeSelected ? false : true}
             onPress={() => {
-                console.log('realizaragendamento')
+                console.log("DATAS-------------")
+                console.log(dates)
                 agendamento(globalVariables.userId, memberSelected, dataCompleta)
+
             }}
             >
                 <Text style = {styles.submitButtonText}>Alterar consulta</Text>
