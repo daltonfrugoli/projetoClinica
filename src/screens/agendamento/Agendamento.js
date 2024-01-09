@@ -39,10 +39,9 @@ export function Agendamento({navigation}){
     function listAllAppointments(){
         listAppointments(globalVariables.userId)
                 .then((res) => {
-                    console.log(res.status)
+                    
                     if (res.status == 200) {     
                         setAppointmentsData(res.data.reverse()) 
-                        console.log(res.data)    
                     } else {
                         Alert.alert("Atenção", res.data.error)
                     }
