@@ -43,7 +43,16 @@ export const Card = (props) => {
                         <Text style = {{color: '#ffffff', fontWeight: 'bold'}}>{horario}h</Text>
                     </View>
                 </View>
-                <AppointmentStatus past = {props.past} cancelable = {props.cancelable} date = {props.date} dateId = {props.dateId} id = {props.id} updateList = {() => attList()} member = {props.memberId} itemFull = {props.itemFull}/>
+                <AppointmentStatus 
+                    past = {props.past} 
+                    cancelable = {props.cancelable} 
+                    date = {props.date} 
+                    dateId = {props.dateId} 
+                    id = {props.id} 
+                    updateList = {() => attList()} 
+                    member = {props.memberId} 
+                    horario = {horario}
+                />
             </View>
         </View>
     )

@@ -23,10 +23,10 @@ import Modal from "react-native-modal"
 import globalVariables from "../../services/GlobalVariables";
 import { attAppointment } from "../../services/Http";
 
+
+
+
 export function ChangeAppointment({navigation, route}){
-
- 
-
 
     //contém infos dos profissionais disponíveis
     const [membersData, setMembersData] = useState([])
@@ -34,9 +34,12 @@ export function ChangeAppointment({navigation, route}){
 
     useEffect(() => {
         loadMemberList()   
-        
+        loadDates()
+        searchTimetables(route.params.date)
+        setSpinnerVisible(true)
     },[])
 
+    const [desabilitar, setDesabilitar] = useState(true)
 
     //busca infos dos profissionais disponíveis na API
     function loadMemberList(){
@@ -44,7 +47,6 @@ export function ChangeAppointment({navigation, route}){
         getMembers()
         .then((res) => {
             setMembersData(res.data)
-            loadDates()
         })
 
         .catch((error) => {
@@ -57,9 +59,7 @@ export function ChangeAppointment({navigation, route}){
     const memberSelected = route.params.member
 
     
-
-    
-    //lista de cards que será carregada com profissionais disponíveis 
+    //cards que serão carregados com profissionais disponíveis 
     const renderMembers = (item, index) => {
 
         return (
@@ -98,40 +98,16 @@ export function ChangeAppointment({navigation, route}){
                 }
             })
             setDates(availableDates)
+            
         })
 
         .catch((error) => {
             console.log(error);
             Alert.alert('Atenção!', 'Ocorreu um erro inesperado, por favor tente novamente mais tarde!')
         })
-
-        setShowDates(true)
-        // loadTimetable(dateSelectedId, appointmentDate)
           
     }
 
-
-    
-
-
-    /*componente que contém a segunda lista com os cards de datas 
-    const secondList = () => {
-
-        console.log("secondList_true")
-
-        return (
-            <View style = {{marginHorizontal: 20}}>
-                <Text style = {styles.listsHeader}>Datas disponíveis</Text>
-                <FlatList 
-                    horizontal = {true}
-                    contentContainerStyle = {{marginBottom: 25}}
-                    data = {dates}
-                    keyExtractor = {item => item.id}
-                    renderItem = {renderDates}
-                />
-            </View>
-        )
-    }*/
 
 
     //contem o ID da data selecionada para mudança de cor do card
@@ -153,14 +129,11 @@ export function ChangeAppointment({navigation, route}){
         var dataConvertida = dateColor.slice(0,10)
         var dataDoItem = item.item.name.slice(0,10)
 
-
-        
-      
-       
         return(
             <TouchableOpacity
             style = {[styles.buttonMenu, {backgroundColor: dataConvertida == dataDoItem ? '#FF4500' : '#2B5353'}]}
             onPress={() => {
+                setTimes(null)
                 loadTimetable(item.item.id, appointmentDate)
             }}
             >
@@ -178,14 +151,12 @@ export function ChangeAppointment({navigation, route}){
         setDateSelected(date) 
         setDateSelectedId(dateId)
         setDateColor(date.toJSON())
-       
         setSpinnerVisible(true)
-        
 
         setTimeout(()=> {
-            searchTimetables(dateId, date)
+            searchTimetables(date)
         }, 500)
-        
+
     }
 
 
@@ -194,17 +165,14 @@ export function ChangeAppointment({navigation, route}){
 
 
     //busca os horários disponíveis para consulta 
-    function searchTimetables(idSelect, dateSelect){
+    function searchTimetables(dateSelect){
 
-        
-        console.log(dateSelect)
-        setSpinnerVisible(false)
-
-        timetableList(memberSelected, dateSelect.getTime())
+        var dateConvert = new Date(dateSelect)
+        timetableList(memberSelected, dateConvert.getTime())
         .then((res) => {
             var timeTables = res.data.filter(timeTable => timeTable.available == true)
-            setTimes(timeTables)
-            
+            setTimes(timeTables) 
+            setSpinnerVisible(false)
         })
 
         .catch((error) => {
@@ -212,7 +180,6 @@ export function ChangeAppointment({navigation, route}){
             Alert.alert('Atenção!', 'Ocorreu um erro inesperado, por favor tente novamente mais tarde!')
         })
 
-        setShowTime(true)
     }
 
 
@@ -220,28 +187,7 @@ export function ChangeAppointment({navigation, route}){
     const [showTime, setShowTime] = useState(true) 
 
     //contém o o horário selecionado
-    const [timeSelected, setTimeSelected] = useState()
-
-
-    /*lista de horários disponiveis
-    const ThirdList = () => {
-
-        return (
-
-            <View style = {{marginHorizontal: 20}}>
-                <Text style = {styles.listsHeader}>Horários disponíveis</Text>
-                {times ? null : <Text style = {{color: '#ffffff', marginTop: 10, opacity: 0.5}}>Nenhum horário disponível...</Text>}
-                <FlatList 
-                    horizontal = {true}
-                    contentContainerStyle = {{marginBottom: 25}}
-                    data = {times}
-                    keyExtractor = {item => item.time}
-                    renderItem = {renderTimes}
-                />
-            </View>
-          
-        )
-    }*/
+    const [timeSelected, setTimeSelected] = useState(route.params.horario)
 
 
     //cards de horários
@@ -320,6 +266,14 @@ export function ChangeAppointment({navigation, route}){
         })
     }
 
+    useEffect(() => {
+        if(dateSelected == route.params.date && timeSelected == route.params.horario){
+            setDesabilitar(false)
+        }else{
+            setDesabilitar(true)
+        }
+    },[memberSelected, dateSelected, timeSelected])
+
 
     return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#476969'}}>
@@ -371,18 +325,15 @@ export function ChangeAppointment({navigation, route}){
             
             </ScrollView> 
             <TouchableOpacity 
-            style = {[styles.submitButton,{opacity: memberSelected && dateSelected && timeSelected ? 1 : 0.5}]}
-            disabled = {memberSelected && dateSelected && timeSelected ? false : true}
+            style = {[styles.submitButton,{opacity: (memberSelected && dateSelected && timeSelected) && (desabilitar) ? 1 : 0.5}]}
+            disabled = {(memberSelected && dateSelected && timeSelected) && (desabilitar) ? false : true}
             onPress={() => {
-                console.log("DATAS-------------")
-                console.log(dates)
                 agendamento(globalVariables.userId, memberSelected, dataCompleta)
-
             }}
             >
                 <Text style = {styles.submitButtonText}>Alterar consulta</Text>
             </TouchableOpacity>
-            <Footer/>
+            <Footer disable = {true}/>
             <Spinner visible = {spinnerVisible}/>
             {renderModal()}
         </SafeAreaView>
