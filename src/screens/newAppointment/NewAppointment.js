@@ -351,7 +351,7 @@ export function NewAppointment({navigation}){
             >
                 <Text style = {styles.submitButtonText}>Realizar agendamento</Text>
             </TouchableOpacity>
-            <Footer/>
+            <Footer disable = {true}/>
             <Spinner visible = {spinnerVisible}/>
             {renderModal()}
         </SafeAreaView>

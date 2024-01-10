@@ -48,7 +48,7 @@ export function Login({navigation}){
                 if (res.status != 200){
                     setSpinnerVisible(false)
                     Alert.alert('Atenção!', res.data.error)
-                    console.log(res.data.error)
+                    console.log(res)
                 }else{
                     //Alert.alert('Login bem sucedido!', res.data.token)
                     setSpinnerVisible(false)
