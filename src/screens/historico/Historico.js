@@ -56,18 +56,6 @@ export function Historico({navigation}){
                     <Ionicons name = "arrow-back-outline" style = {styles.goBackArrow}></Ionicons>
                 </TouchableOpacity>
                 <Text style = {styles.topText}>Historico de consultas</Text>
-                {/*<TouchableOpacity
-                    onPress={() => {
-                        if(isLoading == true){
-                             setIsLoading(false)
-                        }else{
-                            setIsLoading(true)
-                        }
-                       
-                    }}
-                >
-                    <Text>aqui</Text>
-                </TouchableOpacity>*/}
         </View>
 
     )
@@ -95,24 +83,24 @@ export function Historico({navigation}){
                 style = {{
                     backgroundColor: '#2B5353', 
                     width: 320,
-                    height: 150,
+                    height: 162,
                     alignSelf: 'center',
                     borderRadius: 15,
                     marginBottom: 20
                 }}
             >
                 <ContentLoader 
-                    viewBox = {`0 0 320 150`}
+                    viewBox = {`0 0 320 162`}
                     backgroundColor="#578787"
                     foregroundColor="#73D5D5"
                 >
-                    <Circle cx = "44" cy = "31" r = "21"/>
-                    <Rect x = "86" y = "16" rx = "4" ry = "4" width = {80} height = {12}/>
-                    <Rect x = "86" y = "36" rx = "4" ry = "4" width = {100} height = {12}/>
-                    <Rect x = "24" y = "74" rx = "4" ry = "4" width = {102} height = {12}/>
-                    <Rect x = "226" y = "74" rx = "4" ry = "4" width = {70} height = {12}/>
-                    <Rect x = "24" y = "104" rx = "4" ry = "4" width = {272} height = {12}/>
-                    <Rect x = "24" y = "122" rx = "4" ry = "4" width = {136} height = {12}/>
+                    <Circle cx = "36" cy = "34" r = "21"/>
+                    <Rect x = "79" y = "20" rx = "4" ry = "4" width = {80} height = {12}/>
+                    <Rect x = "79" y = "40" rx = "4" ry = "4" width = {100} height = {12}/>
+                    <Rect x = "16" y = "78" rx = "4" ry = "4" width = {102} height = {12}/>
+                    <Rect x = "160" y = "78" rx = "4" ry = "4" width = {70} height = {12}/>
+                    <Rect x = "16" y = "114" rx = "4" ry = "4" width = {272} height = {12}/>
+                    <Rect x = "16" y = "132" rx = "4" ry = "4" width = {136} height = {12}/>
                 </ContentLoader>
             </View>
                 
@@ -142,17 +130,20 @@ export function Historico({navigation}){
     return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#476969'}}>
 
-            {listHeader()}
             {isLoad ? (
             <FlatList 
+                ListHeaderComponent={listHeader()}
                 data = {historicData}
                 keyExtractor = {item => item.id}
                 renderItem = {renderItem}
                 numColumns={1}
             /> ) : 
+            <>
+            {listHeader()}
             <View style = {{flex: 1}}>
                 {renderPlace()}
             </View>
+            </>
             }
             <Footer/>
         </SafeAreaView>

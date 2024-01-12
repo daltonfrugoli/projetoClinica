@@ -4,7 +4,8 @@ import {
     SafeAreaView,
     View,
     TouchableOpacity,
-    Text
+    Text,
+    ScrollView
 } from "react-native";
 
 import { styles } from "./EquipeDetails.style"
@@ -58,6 +59,7 @@ export function EquipeDetails({navigation, route}){
                 </TouchableOpacity>
                 <Text style = {styles.topText}>{doctorInfo.data.name}</Text>
             </View>
+            <ScrollView>
             <View style = {{flex: 1}}>
                 <View style = {styles.profileIconContainer}>
                     <Ionicons name = "person-circle-outline" style = {styles.profileIcon}></Ionicons>
@@ -87,6 +89,7 @@ export function EquipeDetails({navigation, route}){
                     <Text style = {[styles.infosText, {fontWeight: 'bold'}]}>{doctorInfo.data.specialization.name}</Text>
                 </View>
             </View>
+            </ScrollView>
             <Footer pressButton = {null} disable = {true}/>
         </SafeAreaView>
     )

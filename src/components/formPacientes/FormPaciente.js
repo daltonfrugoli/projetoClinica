@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 
 import {
     Text,
-    TextInput,
     TouchableOpacity,
     View
 } from 'react-native';
@@ -10,6 +9,8 @@ import {
 import { Form } from "@unform/mobile";
 import { styles } from "./FormPaciente.style";
 import { HideButton } from "../hidebutton/HideButton";
+import { TextInput } from "react-native-paper";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export const FormPaciente = (props) => {
 
@@ -32,14 +33,27 @@ export const FormPaciente = (props) => {
     }
 
 
+    const labelEmail = () => (
+        <Text style = {{color: '#ffffff'}}>Email</Text>     
+    )
+
+
+    const labelSenha = () => (
+        <Text style = {{color: '#ffffff'}}>Senha</Text>     
+    )
+
     return(
             
             <View>
                 <Form ref = { formRef } onSubmit = { printData }>
                     <View style = { styles.formContainer }>
-                        <Text style = { styles.textInputs }>Email</Text>
                         <TextInput 
+                        textColor="#ffffff"
+                        mode="outlined"
+                        label={labelEmail()}
                         autoCapitalize = "none"
+                        outlineColor="#ffffff"
+                        activeOutlineColor="#FF4500"
                         style = { styles.inputEmail } 
                         placeholder = "Digite seu email" 
                         placeholderTextColor = { 'grey' } 
@@ -47,9 +61,13 @@ export const FormPaciente = (props) => {
                         ref = { email }
                         onChangeText = { (value) => {SetEmailValue(value)} }>
                         </TextInput>
-                        <Text style = { styles.textInputs }>Senha</Text>
                         <View style = { styles.inputSenhaContainer }>
                             <TextInput 
+                            textColor="#ffffff"
+                            mode="outlined"
+                            label={labelSenha()}
+                            outlineColor="#dfdfdf"
+                            activeOutlineColor="#FF4500"
                             style = { styles.inputSenha } 
                             placeholder = "Digite sua senha" 
                             placeholderTextColor = { 'grey' } 

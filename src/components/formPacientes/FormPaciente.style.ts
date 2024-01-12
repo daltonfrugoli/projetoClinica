@@ -14,24 +14,16 @@ export const styles = StyleSheet.create({
         marginBottom: 10
     },
     inputEmail: {
-        backgroundColor: '#2B5353',
-        borderRadius: 8,
-        color: '#ffffff',
-        height: 50,
-        padding: 10
+        backgroundColor: '#476969',
+        color: '#ffffff', 
     },
     inputSenhaContainer: {
-        flexDirection: "row"
+        flexDirection: "row",
+        marginTop: 15
     },
     inputSenha: {
-        backgroundColor: '#2B5353',
-        borderTopLeftRadius: 8,
-        borderBottomLeftRadius: 8,
-        marginBottom: 65,
-        color: '#ffffff',
+        backgroundColor: '#476969',
         width: '85%',
-        height: 50,
-        padding: 10
     },
     upButton: {
         alignItems: 'center',
@@ -50,5 +42,8 @@ export const styles = StyleSheet.create({
         width: '90%',
         maxWidth: 400,
         alignSelf: 'center'
+    },
+    contentStyleEmail: {
+        backgroundColor: "#dfdfdf"
     }
 })

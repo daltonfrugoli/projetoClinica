@@ -2,7 +2,6 @@ import { StyleSheet} from "react-native"
 
 export const styles = StyleSheet.create({
     hideButton: {
-        backgroundColor:'#2B5353',
         height: 50,
         alignItems: "center",
         justifyContent: "center",
@@ -11,8 +10,9 @@ export const styles = StyleSheet.create({
         width: '15%' 
     },
     icon: {
+        marginTop: 8,
         color: '#ffffff', 
-        fontSize: 20
+        fontSize: 25
     }
 
 })
