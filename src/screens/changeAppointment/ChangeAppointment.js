@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
     View,
@@ -30,6 +30,25 @@ export function ChangeAppointment({navigation, route}){
 
     //contém infos dos profissionais disponíveis
     const [membersData, setMembersData] = useState([])
+
+    const [dateColor, setDateColor] = useState(route.params.date)
+
+    const refDias = useRef();
+    const refTimes = useRef();
+
+    const scrollToIndex = (index) => {
+        refDias.current.scrollToIndex({
+            animated: true,
+            index: index
+        });
+    }
+
+    const scrollToIndexTimes = (index) => {
+        refTimes.current.scrollToIndex({
+            animated: true,
+            index: index
+        });
+    }
 
 
     useEffect(() => {
@@ -81,6 +100,10 @@ export function ChangeAppointment({navigation, route}){
     const [showDates, setShowDates] = useState(false)
 
 
+    const [indexSelec, setIndexSelec] = useState()
+    const [indexSelecTime, setIndexSelecTime] = useState()
+    
+    
     //carrega as datas disponíveis
     function loadDates(){
 
@@ -88,16 +111,25 @@ export function ChangeAppointment({navigation, route}){
         .then((res) => {
             var currentDate = new Date()
             var availableDates = []
+
             res.data.map((date, index) => {
                 if(Date.parse(date.name) >= currentDate){
                     availableDates.push(date)
                 }
+
 
                 if(route.params.date.slice(0,10) == date.name.slice(0,10)){
                     setDateSelectedId(date.id)
                 }
             })
             setDates(availableDates)
+
+            availableDates.map((dias, index) => {
+                if(route.params.date.slice(0,10) == dias.name.slice(0,10)){
+                    setIndexSelec(index)
+                    
+                }
+            })
             
         })
 
@@ -116,13 +148,13 @@ export function ChangeAppointment({navigation, route}){
     //contém a data selecionada 
     const [dateSelected, setDateSelected] = useState(route.params.date)
 
-    const [dateColor, setDateColor] = useState(route.params.date)
+    
 
 
     //cards de datas disponiveis 
     const renderDates = (item, index) => {
 
-        const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+        const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']
         const appointmentDate = new Date(item.item.name)
         var dayName = weekDays[appointmentDate.getDay()]
         var dateString = appointmentDate.toLocaleDateString("pt-BR",{timeZone:"UTC"}).slice(0,5)
@@ -135,6 +167,7 @@ export function ChangeAppointment({navigation, route}){
             onPress={() => {
                 setTimes(null)
                 loadTimetable(item.item.id, appointmentDate)
+                console.log(route.params)
             }}
             >
                 <Text style = {[styles.buttonNames, {fontWeight: 'bold'}]}>{dateString}</Text>
@@ -173,6 +206,14 @@ export function ChangeAppointment({navigation, route}){
             var timeTables = res.data.filter(timeTable => timeTable.available == true)
             setTimes(timeTables) 
             setSpinnerVisible(false)
+
+            timeTables.map((dias, index) => {
+                if(route.params.horario == dias.time){
+                    setIndexSelecTime(index)
+                    
+                }
+            })
+            
         })
 
         .catch((error) => {
@@ -303,6 +344,7 @@ export function ChangeAppointment({navigation, route}){
             <View style = {{marginHorizontal: 20}}>
                 <Text style = {styles.listsHeader}>Datas disponíveis</Text>
                 <FlatList 
+                    ref={refDias}
                     horizontal = {true}
                     contentContainerStyle = {{marginBottom: 25}}
                     data = {dates}
@@ -315,6 +357,7 @@ export function ChangeAppointment({navigation, route}){
                 <Text style = {styles.listsHeader}>Horários disponíveis</Text>
                 {times ? null : <Text style = {{color: '#ffffff', marginTop: 10, opacity: 0.5}}>Nenhum horário disponível...</Text>}
                 <FlatList 
+                    ref={refTimes}
                     horizontal = {true}
                     contentContainerStyle = {{marginBottom: 25}}
                     data = {times}
@@ -324,6 +367,14 @@ export function ChangeAppointment({navigation, route}){
             </View>
             
             </ScrollView> 
+            <TouchableOpacity
+                onPress={() => {
+                    scrollToIndex(indexSelec)
+                    scrollToIndexTimes(indexSelecTime)
+                }}
+            >
+                <Text>AQUI!!!</Text>
+            </TouchableOpacity>
             <TouchableOpacity 
             style = {[styles.submitButton,{opacity: (memberSelected && dateSelected && timeSelected) && (desabilitar) ? 1 : 0.5}]}
             disabled = {(memberSelected && dateSelected && timeSelected) && (desabilitar) ? false : true}

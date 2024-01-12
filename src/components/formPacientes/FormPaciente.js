@@ -49,13 +49,11 @@ export const FormPaciente = (props) => {
                     <View style = { styles.formContainer }>
                         <TextInput 
                         textColor="#ffffff"
-                        mode="outlined"
+                        underlineColor="#ffffff"
+                        activeUnderlineColor="#FF4500"
                         label={labelEmail()}
                         autoCapitalize = "none"
-                        outlineColor="#ffffff"
-                        activeOutlineColor="#FF4500"
                         style = { styles.inputEmail } 
-                        placeholder = "Digite seu email" 
                         placeholderTextColor = { 'grey' } 
                         returnKeyType = "next" 
                         ref = { email }
@@ -64,12 +62,10 @@ export const FormPaciente = (props) => {
                         <View style = { styles.inputSenhaContainer }>
                             <TextInput 
                             textColor="#ffffff"
-                            mode="outlined"
+                            underlineColor="#ffffff"
+                            activeUnderlineColor="#FF4500"
                             label={labelSenha()}
-                            outlineColor="#dfdfdf"
-                            activeOutlineColor="#FF4500"
-                            style = { styles.inputSenha } 
-                            placeholder = "Digite sua senha" 
+                            style = { styles.inputSenha }  
                             placeholderTextColor = { 'grey' } 
                             secureTextEntry = { hidePass } 
                             ref = { senha }

@@ -49,6 +49,7 @@ export function EquipeDetails({navigation, route}){
 
     return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#476969'}}>
+            <ScrollView>
             <View style = {styles.topView}>
                 <TouchableOpacity
                 onPress = {() => {
@@ -59,7 +60,7 @@ export function EquipeDetails({navigation, route}){
                 </TouchableOpacity>
                 <Text style = {styles.topText}>{doctorInfo.data.name}</Text>
             </View>
-            <ScrollView>
+            
             <View style = {{flex: 1}}>
                 <View style = {styles.profileIconContainer}>
                     <Ionicons name = "person-circle-outline" style = {styles.profileIcon}></Ionicons>
