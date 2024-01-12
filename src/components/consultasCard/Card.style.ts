@@ -3,18 +3,18 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
 
     cardContainer: {
-        marginVertical: 20,
+        marginBottom: 20,
         borderWidth: 2,
         borderColor: '#ffffff',
-        borderRadius: 10,
+        borderRadius: 15,
         width: 320,
-        height: 180,
+        height: 182,
         alignSelf: 'center'
     },
     profile: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 5
+        marginVertical: 6
     },
     profileIcon: {
         color: '#ffffff',
@@ -23,12 +23,13 @@ export const styles = StyleSheet.create({
     },
     dateContainer: {
         backgroundColor: '#19192333',
-        width: '100%',
+        width: '98%',
         height: 55,
         alignSelf: 'center',
         borderRadius: 10,
         flexDirection: 'row',
-        marginTop: 5
+        marginBottom: 2,
+        justifyContent: "space-between"
     },
     dateIcons: {
         fontSize: 30,
@@ -38,6 +39,7 @@ export const styles = StyleSheet.create({
     },
     dayHour: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginRight: 15
     }
 })

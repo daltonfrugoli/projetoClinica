@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
 
     cardContainer: {
         width: 320,
-        height: 150,
+        height: 162,
         borderWidth: 2,
         borderColor: '#ffffff',
         borderRadius: 15,
@@ -12,12 +12,12 @@ export const styles = StyleSheet.create({
         marginBottom: 20
     },
     cardMargin: {
-        width: '90%',
+        width: '95%',
         alignSelf: 'center'
     },
     topLine: {
         flexDirection: 'row', 
-        marginTop:3, 
+        marginTop: 6, 
         alignItems: 'center'
     },
     topIcon: {
@@ -32,8 +32,9 @@ export const styles = StyleSheet.create({
     midLine: {
         flexDirection: 'row', 
         alignItems: 'center',
-        justifyContent: 'space-between',
-        marginVertical: 8
+        gap: 20,
+        marginTop: 10,
+        marginBottom: 14
     },
     midLineContainers: {
         flexDirection: 'row', 
@@ -42,7 +43,7 @@ export const styles = StyleSheet.create({
     midIcons: {
         fontSize: 25, 
         color: '#ffffff', 
-        marginLeft: 5,
+        marginLeft: 6,
         marginRight: 5
     },
     midText: {
@@ -53,9 +54,10 @@ export const styles = StyleSheet.create({
     },
     bottomIcon: {
         color: '#ffffff',
-        fontSize: 25,
+        fontSize: 28,
         marginLeft: 5,
-        marginRight: 4
+        marginRight: 4,
+        marginTop: 2
     },
     bottomText: {
         color: '#ffffff',

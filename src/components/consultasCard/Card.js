@@ -25,7 +25,7 @@ export const Card = (props) => {
 
     return (
         <View style = {styles.cardContainer}>
-            <View style = {{width: '90%', alignSelf: 'center'}}>
+            <View style = {{width: '95%', alignSelf: 'center'}}>
                 <View style = {styles.profile}>
                     <Ionicons style = {styles.profileIcon} name="person-circle"/>
                     <View>
@@ -34,7 +34,7 @@ export const Card = (props) => {
                     </View>
                 </View>
                 <View style = {styles.dateContainer}>
-                    <View style = {[styles.dayHour, {width: '55%'}]}>
+                    <View style = {[styles.dayHour]}>
                         <Ionicons style = {styles.dateIcons} name="calendar"></Ionicons>
                         <Text style = {{color: '#ffffff', fontWeight: 'bold'}}>{weekDays[today.getDay()]}, {today.getDate()} {months[today.getMonth()]} </Text>
                     </View>

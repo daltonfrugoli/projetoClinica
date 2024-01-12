@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FF4500',
         borderRadius: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginRight: 4
     },
     appointmentsCancelButton: {
         width: 120,
@@ -17,6 +18,7 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginLeft: 4
     }
 })
