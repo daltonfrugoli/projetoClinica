@@ -14,8 +14,7 @@ export const styles = StyleSheet.create({
         marginBottom: 10
     },
     inputEmail: {
-        backgroundColor: '#476969',
-        color: '#ffffff', 
+        backgroundColor: '#476969',   
     },
     inputSenhaContainer: {
         flexDirection: "row",
@@ -23,7 +22,7 @@ export const styles = StyleSheet.create({
     },
     inputSenha: {
         backgroundColor: '#476969',
-        width: '85%',
+        width: '100%'
     },
     upButton: {
         alignItems: 'center',

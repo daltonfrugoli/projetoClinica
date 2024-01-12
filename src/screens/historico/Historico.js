@@ -32,12 +32,21 @@ export function Historico({navigation}){
         listAppointments(globalVariables.userId)
                 .then((res) => {
                     
-                    if (res.status == 200) {   
+                    if (res.status == 200) { 
+                        var currentDate = new Date()
+                        var availableDates = [] 
+                        res.data.map((appointment, index) => {
+                            if(Date.parse(appointment.date) < currentDate){
+                                availableDates.push(appointment)
+                            }
+                        })
+
+                        setHistoricData(availableDates.reverse())
+                        
                         setTimeout(() => {
-                            setHistoricData(res.data.reverse()) 
                             setIsLoad(true)
                         },1000)  
-                        
+                           
                     } else {
                         Alert.alert("Atenção", res.data.error)
                     }

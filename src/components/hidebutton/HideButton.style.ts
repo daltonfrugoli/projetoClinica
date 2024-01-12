@@ -7,7 +7,9 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         borderBottomRightRadius: 8,
         borderTopRightRadius: 8,
-        width: '15%' 
+        width: '15%', 
+        position: "absolute",
+        right: 5
     },
     icon: {
         marginTop: 8,

@@ -89,7 +89,6 @@ export function NewAppointment({navigation}){
 
         datesList()
         .then((res) => {
-            console.log(res.data)
             var currentDate = new Date()
             var availableDates = []
             res.data.map((date, index) => {
@@ -139,7 +138,7 @@ export function NewAppointment({navigation}){
     //cards de datas disponiveis 
     const renderDates = (item, index) => {
 
-        const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+        const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']
         const appointmentDate = new Date(item.item.name)
         var dayName = weekDays[appointmentDate.getDay()]
         var dateString = appointmentDate.toLocaleDateString("pt-BR",{timeZone:"UTC"}).slice(0,5)
