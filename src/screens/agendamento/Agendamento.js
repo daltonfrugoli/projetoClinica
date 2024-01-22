@@ -85,12 +85,11 @@ export function Agendamento({navigation}){
 
     function attList(){
         setAppointmentsData([])
-        setSpinnerIsVisible(true)
+        setIsLoad(false)
         setTimeout(() => {
             listAllAppointments()
-            setSpinnerIsVisible(false)
-        }, 3000)
-        
+            setIsLoad(true)
+        }, 3000)   
     }
 
 
@@ -135,7 +134,6 @@ export function Agendamento({navigation}){
                     <Rect x = "16" y = "87" rx = "4" ry = "4" width = {102} height = {12}/>
                     <Rect x = "198" y = "87" rx = "4" ry = "4" width = {102} height = {12}/>
                     <Rect x = "16" y = "144" rx = "4" ry = "4" width = {286} height = {12}/>
-                    {/*<Rect x = "16" y = "132" rx = "4" ry = "4" width = {136} height = {12}/>*/}
                 </ContentLoader>
             </View>
                 
@@ -178,8 +176,7 @@ export function Agendamento({navigation}){
             data = {appointmentsData}
             keyExtractor = {item => item.id}
             renderItem = {renderItem}
-            numColumns = {1}
-            
+            numColumns = {1}    
             />) : 
             <>
             {HeaderList()}
@@ -188,7 +185,6 @@ export function Agendamento({navigation}){
             </View> 
             </>
             }
-            <Spinner visible = {spinnerIsVisible}/>
             <Footer/>
         </SafeAreaView>
     )

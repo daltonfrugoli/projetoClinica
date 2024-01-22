@@ -36,20 +36,6 @@ export function ChangeAppointment({navigation, route}){
     const refDias = useRef();
     const refTimes = useRef();
 
-    const scrollToIndex = (index) => {
-        refDias.current.scrollToIndex({
-            animated: true,
-            index: index
-        });
-    }
-
-    const scrollToIndexTimes = (index) => {
-        refTimes.current.scrollToIndex({
-            animated: true,
-            index: index
-        });
-    }
-
 
     useEffect(() => {
         loadMemberList()   
@@ -207,13 +193,8 @@ export function ChangeAppointment({navigation, route}){
             setTimes(timeTables) 
             setSpinnerVisible(false)
 
-            timeTables.map((dias, index) => {
-                if(route.params.horario == dias.time){
-                    setIndexSelecTime(index)
-                    
-                }
-            })
-            
+            const indexTime = timeTables.findIndex(horario => horario.time === route.params.horario)
+            setIndexSelecTime(indexTime)
         })
 
         .catch((error) => {
@@ -221,6 +202,20 @@ export function ChangeAppointment({navigation, route}){
             Alert.alert('Atenção!', 'Ocorreu um erro inesperado, por favor tente novamente mais tarde!')
         })
 
+    }
+
+    const listRendered = () => {
+        refDias.current.scrollToIndex({
+            animated: true,
+            index: indexSelec
+        });
+    }
+
+    const listTimesRendered = () => {
+        refTimes.current.scrollToIndex({
+            animated: true,
+            index: indexSelecTime
+        });
     }
 
 
@@ -315,10 +310,10 @@ export function ChangeAppointment({navigation, route}){
         }
     },[memberSelected, dateSelected, timeSelected])
 
+    const Topo = () => {
 
-    return(
-        <SafeAreaView style = {{flex: 1, backgroundColor: '#476969'}}>
-            <ScrollView>
+        return(
+
             <View style = {styles.topView}>
                 <TouchableOpacity
                 onPress = {() => {
@@ -329,7 +324,20 @@ export function ChangeAppointment({navigation, route}){
                 </TouchableOpacity>
                 <Text style = {styles.topText}>Alterar Consultas</Text>
             </View>
-            
+
+        )
+    }
+
+    const [isLoad, setIsLoad] = useState(true)
+
+
+    return(
+        <SafeAreaView style = {{flex: 1, backgroundColor: '#476969'}}>
+            <ScrollView>
+            {isLoad ? (
+            <>
+            <View style = {{flex :1}}>
+            <Topo/>
             <View style = {{marginHorizontal: 20}}>
                 <Text style = {styles.listsHeader}>Profissionais disponíveis</Text>
                 <FlatList 
@@ -346,6 +354,7 @@ export function ChangeAppointment({navigation, route}){
                 <FlatList 
                     ref={refDias}
                     horizontal = {true}
+                    onContentSizeChange={listRendered}
                     contentContainerStyle = {{marginBottom: 25}}
                     data = {dates}
                     keyExtractor = {item => item.id}
@@ -359,6 +368,7 @@ export function ChangeAppointment({navigation, route}){
                 <FlatList 
                     ref={refTimes}
                     horizontal = {true}
+                    onContentSizeChange={listTimesRendered}
                     contentContainerStyle = {{marginBottom: 25}}
                     data = {times}
                     keyExtractor = {item => item.time}
@@ -366,15 +376,7 @@ export function ChangeAppointment({navigation, route}){
                 />
             </View>
             
-            </ScrollView> 
-            <TouchableOpacity
-                onPress={() => {
-                    scrollToIndex(indexSelec)
-                    scrollToIndexTimes(indexSelecTime)
-                }}
-            >
-                <Text>AQUI!!!</Text>
-            </TouchableOpacity>
+            
             <TouchableOpacity 
             style = {[styles.submitButton,{opacity: (memberSelected && dateSelected && timeSelected) && (desabilitar) ? 1 : 0.5}]}
             disabled = {(memberSelected && dateSelected && timeSelected) && (desabilitar) ? false : true}
@@ -384,9 +386,20 @@ export function ChangeAppointment({navigation, route}){
             >
                 <Text style = {styles.submitButtonText}>Alterar consulta</Text>
             </TouchableOpacity>
+            </View>
+            
             <Footer disable = {true}/>
+            </>
+            ) 
+            : 
+            <>
+            </>}
+            
             <Spinner visible = {spinnerVisible}/>
+            </ScrollView>
             {renderModal()}
+            
+
         </SafeAreaView>
     )
 }
