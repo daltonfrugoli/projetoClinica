@@ -33,15 +33,15 @@ export function Login({navigation}){
         })
     },[])
 
-    const mudarPrint = (dadoQueVemDoComponente) => {
-        setPrintForm(dadoQueVemDoComponente)
+    const mudarPrint = (clientOrProvider) => {
+        setPrintForm(clientOrProvider)
     }
 
-    const submitData = (email, senha) => {
+    const submitData = (email, password) => {
 
         setSpinnerVisible(true)
-        console.log(email, senha)
-        signIn(email, senha)
+        console.log(email, password)
+        signIn(email, password)
         .then((res) => {
             //200, 400, 401
             setTimeout(() => {
@@ -62,14 +62,14 @@ export function Login({navigation}){
                                 if(results.rows.length > 0){
                                     qr2.executeSql(
                                         "UPDATE users SET email = ?, senha = ?, user = ?, token = ?, userId = ?, lastLoggedIn = ? WHERE userId = ?",
-                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id, new Date().toString(), res.data.user.id]
+                                        [email, password, JSON.stringify(res.data.user), res.data.token, res.data.user.id, new Date().toString(), res.data.user.id]
                                     )
 
                                 } else {
 
                                     qr2.executeSql(
                                         "INSERT INTO users (email, senha, user, token, userId, lastLoggedIn) VALUES (?, ?, ?, ?, ?, ?)",
-                                        [email, senha, JSON.stringify(res.data.user), res.data.token, res.data.user.id, new Date().toString()]
+                                        [email, password, JSON.stringify(res.data.user), res.data.token, res.data.user.id, new Date().toString()]
                                     )
                                    } 
                                 setTimeout(() => {
@@ -98,8 +98,8 @@ export function Login({navigation}){
         <SafeAreaView style = {{ flex: 1, backgroundColor: '#2B5353D9' }}>
             <ScrollView>
                 {/*componente principal de tela de login, que controla o form carregado*/}
-                <TopContainerLogin func = { (dadoQueVemDoComponente) => mudarPrint(dadoQueVemDoComponente)}/>
-                { printForm == 'client' ? <FormPaciente func = {(email, senha) => submitData(email, senha)}/> : null }
+                <TopContainerLogin func = { (clientOrProvider) => mudarPrint(clientOrProvider)}/>
+                { printForm == 'client' ? <FormPaciente func = {(email, password) => submitData(email, password)}/> : null }
             </ScrollView> 
 
             <Spinner visible = {spinnerVisible}/>     

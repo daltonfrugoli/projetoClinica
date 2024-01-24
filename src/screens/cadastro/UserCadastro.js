@@ -27,9 +27,9 @@ export function UserCadastro({navigation}){
     const [emailAtual, setEmailAtual] = useState()
     const [nomeCompleto, setNomeCompleto] = useState()
     const [email, setEmail] = useState()
-    const [senhaAtual, setSenhaAtual] = useState("")
-    const [senhaNova, setSenhaNova] = useState("")
-    const [senhaNovaConf, setSenhaNovaConf] = useState("")
+    const [currentPassword, setCurrentPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("")
+    const [newPasswordConf, setNewPasswordConf] = useState("")
     const formRef = useRef(null)
     const [spinnerVisible, setSpinnerVisible] = useState(false)
     
@@ -57,20 +57,20 @@ export function UserCadastro({navigation}){
 
     function saveData(infos){
 
-        if(nomeAtual == nomeCompleto && emailAtual == email && !senhaAtual && !senhaNova && !senhaNovaConf){
+        if(nomeAtual == nomeCompleto && emailAtual == email && !currentPassword && !newPassword && !newPasswordConf){
             return validationAlert("Atenção", "Nenhuma alteração detectada!")
         }
-        if((!senhaNova || !senhaNovaConf) && senhaAtual.length > 0){
-            return validationAlert("Atenção", 'Preencha corretamente os campos: \"Nova senha\" e \"Confirmar nova senha\"')
+        if((!newPassword || !newPasswordConf) && currentPassword.length > 0){
+            return validationAlert("Atenção", 'Preencha corretamente os campos: \"Nova password\" e \"Confirmar nova password\"')
         }
-        if((senhaNova.length > 0 && senhaNovaConf.length > 0) && !senhaAtual){
-            return validationAlert("Atenção", "Você deve informar sua senha atual para validação das alterações")
+        if((newPassword.length > 0 && newPasswordConf.length > 0) && !currentPassword){
+            return validationAlert("Atenção", "Você deve informar sua password atual para validação das alterações")
         }
-        if(senhaNova != senhaNovaConf){
-            return validationAlert("Atenção", '\"Nova senha\" e \"Confirmar nova senha\" não coincidem')
+        if(newPassword != newPasswordConf){
+            return validationAlert("Atenção", '\"Nova password\" e \"Confirmar nova password\" não coincidem')
         }
-        if((senhaNova.length < 6 && senhaNovaConf.length < 6 ) && senhaAtual.length > 0){
-            return validationAlert("Atenção", "Sua nova senha deve conter no mínimo 6 caracteres")
+        if((newPassword.length < 6 && newPasswordConf.length < 6 ) && currentPassword.length > 0){
+            return validationAlert("Atenção", "Sua nova password deve conter no mínimo 6 caracteres")
         }
 
 
@@ -81,9 +81,9 @@ export function UserCadastro({navigation}){
 
         infos.name = nomeCompleto
         infos.email = email
-        infos.senhaAtual = senhaAtual
-        infos.senhaNova = senhaNova
-        infos.senhaNovaConf = senhaNovaConf
+        infos.currentPassword = currentPassword
+        infos.newPassword = newPassword
+        infos.newPasswordConf = newPasswordConf
 
         updateUser(infos)
         .then((res) => {
@@ -105,8 +105,8 @@ export function UserCadastro({navigation}){
                                 db.transaction((qr) => {
                                     qr.executeSql(
                                         
-                                        "UPDATE users SET user = ?, email = ?, senha = ? WHERE userId = ?",
-                                        [JSON.stringify(obj), email, senhaNova, globalVariables.userId]
+                                        "UPDATE users SET user = ?, email = ?, password = ? WHERE userId = ?",
+                                        [JSON.stringify(obj), email, newPassword, globalVariables.userId]
                                     ), []
                                 })
 
@@ -163,28 +163,28 @@ export function UserCadastro({navigation}){
                     returnKeyType="next"
                     autoCapitalize="none"
                     />
-                    <Text style = {styles.textInputs}>Senha atual</Text>
+                    <Text style = {styles.textInputs}>Password atual</Text>
                     <TextInput 
                     style = {styles.inputEmail}
-                    onChangeText = {setSenhaAtual}
-                    value = {senhaAtual}
+                    onChangeText = {setCurrentPassword}
+                    value = {currentPassword}
                     secureTextEntry = {true}
                     autoCapitalize = "none"
                     />
-                    <Text style = {styles.textInputs}>Nova senha</Text>
+                    <Text style = {styles.textInputs}>Nova password</Text>
                     <TextInput 
                     style = {styles.inputEmail}
-                    onChangeText={setSenhaNova}
-                    value={senhaNova}
+                    onChangeText={setNewPassword}
+                    value={newPassword}
                     returnKeyType="next"
                     secureTextEntry = {true}
                     autoCapitalize="none"
                     />
-                    <Text style = {styles.textInputs}>Confirmar nova senha</Text>
+                    <Text style = {styles.textInputs}>Confirmar nova password</Text>
                     <TextInput 
                     style = {styles.inputEmail}
-                    onChangeText={setSenhaNovaConf}
-                    value={senhaNovaConf}
+                    onChangeText={setNewPasswordConf}
+                    value={newPasswordConf}
                     secureTextEntry = {true}
                     autoCapitalize="none"
                     />

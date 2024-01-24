@@ -16,10 +16,7 @@ import { styles } from "./Agendamento.style"
 import { listAppointments } from "../../services/Http";
 import globalVariables from "../../services/GlobalVariables";
 import { Card } from "../../components/consultasCard/Card";
-import Spinner from "react-native-loading-spinner-overlay";
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
-
-
 
 
 
@@ -58,19 +55,19 @@ export function Agendamento({navigation}){
         return(
             <View style = {styles.topView}>
                 <TouchableOpacity
-                onPress = {() => {
-                    navigation.dispatch(CommonActions.goBack())
-                }}
+                    onPress = {() => {
+                        navigation.dispatch(CommonActions.goBack())
+                    }}
                 >
                     <Ionicons name = "arrow-back-outline" style = {styles.goBackArrow}></Ionicons>
                 </TouchableOpacity>
                 <Text style = {styles.topText}>Consultas</Text>
                 
                 <TouchableOpacity 
-                style = {styles.novaConsultaButton}
-                onPress={() => {
-                    newAppointment()
-                }}
+                    style = {styles.novaConsultaButton}
+                    onPress={() => {
+                        newAppointment()
+                    }}
                 >
                     <Ionicons style = {{color: '#ffffff', fontSize: 20, fontWeight: 'bold'}} name="add-outline"/>
                     <Text style = {{color: '#ffffff'}}>Nova consulta</Text>
@@ -96,14 +93,14 @@ export function Agendamento({navigation}){
     const renderItem = ({item, index}) => {
         return(
                 <Card 
-                name = {item.member.name}
-                memberId = {item.member.id}
-                specialization = {item.member.specialization.name}
-                date = {item.date}
-                cancelable = {item.cancelable}
-                past = {item.past}
-                id = {item.id}
-                updateList = {() => attList()}
+                    name = {item.member.name}
+                    memberId = {item.member.id}
+                    specialization = {item.member.specialization.name}
+                    date = {item.date}
+                    cancelable = {item.cancelable}
+                    past = {item.past}
+                    id = {item.id}
+                    updateList = {() => attList()}
                 />
           )
     }
@@ -171,12 +168,12 @@ export function Agendamento({navigation}){
             
             {isLoad ? (
             <FlatList
-            ListHeaderComponent={HeaderList()}
-            contentContainerStyle = {{ paddingBottom: 100 }}
-            data = {appointmentsData}
-            keyExtractor = {item => item.id}
-            renderItem = {renderItem}
-            numColumns = {1}    
+                ListHeaderComponent={HeaderList()}
+                contentContainerStyle = {{ paddingBottom: 100 }}
+                data = {appointmentsData}
+                keyExtractor = {item => item.id}
+                renderItem = {renderItem}
+                numColumns = {1}    
             />) : 
             <>
             {HeaderList()}

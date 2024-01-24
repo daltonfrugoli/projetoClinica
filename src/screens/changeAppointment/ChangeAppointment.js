@@ -17,7 +17,6 @@ import { Card } from "../../components/membersListCard/Card";
 import { getMembers } from "../../services/Http";
 import { datesList } from "../../services/Http";
 import { timetableList } from "../../services/Http";
-import { saveAppointment } from "../../services/Http";
 import Spinner from "react-native-loading-spinner-overlay";
 import Modal from "react-native-modal"
 import globalVariables from "../../services/GlobalVariables";
@@ -30,9 +29,7 @@ export function ChangeAppointment({navigation, route}){
 
     //contém infos dos profissionais disponíveis
     const [membersData, setMembersData] = useState([])
-
     const [dateColor, setDateColor] = useState(route.params.date)
-
     const refDias = useRef();
     const refTimes = useRef();
 
@@ -80,11 +77,7 @@ export function ChangeAppointment({navigation, route}){
 
     //contém as datas disponíveis 
     const [dates, setDates] = useState([])
-
-
-    //variavel que permite a exibição da segunda lista
-    const [showDates, setShowDates] = useState(false)
-
+    
 
     const [indexSelec, setIndexSelec] = useState()
     const [indexSelecTime, setIndexSelecTime] = useState()
@@ -102,18 +95,12 @@ export function ChangeAppointment({navigation, route}){
                 if(Date.parse(date.name) >= currentDate){
                     availableDates.push(date)
                 }
-
-
-                if(route.params.date.slice(0,10) == date.name.slice(0,10)){
-                    setDateSelectedId(date.id)
-                }
             })
             setDates(availableDates)
 
             availableDates.map((dias, index) => {
                 if(route.params.date.slice(0,10) == dias.name.slice(0,10)){
                     setIndexSelec(index)
-                    
                 }
             })
             
@@ -126,16 +113,8 @@ export function ChangeAppointment({navigation, route}){
           
     }
 
-
-
-    //contem o ID da data selecionada para mudança de cor do card
-    const [dateSelectedId, setDateSelectedId] = useState(null)
-
     //contém a data selecionada 
     const [dateSelected, setDateSelected] = useState(route.params.date)
-
-    
-
 
     //cards de datas disponiveis 
     const renderDates = (item, index) => {
@@ -168,14 +147,12 @@ export function ChangeAppointment({navigation, route}){
 
         setTimeSelected(null)
         setDateSelected(date) 
-        setDateSelectedId(dateId)
         setDateColor(date.toJSON())
         setSpinnerVisible(true)
 
         setTimeout(()=> {
             searchTimetables(date)
         }, 500)
-
     }
 
 
@@ -193,7 +170,7 @@ export function ChangeAppointment({navigation, route}){
             setTimes(timeTables) 
             setSpinnerVisible(false)
 
-            const indexTime = timeTables.findIndex(horario => horario.time === route.params.horario)
+            const indexTime = timeTables.findIndex(schedule => schedule.time === route.params.schedule)
             setIndexSelecTime(indexTime)
         })
 
@@ -205,30 +182,29 @@ export function ChangeAppointment({navigation, route}){
     }
 
     const listRendered = () => {
-        refDias.current.scrollToIndex({
-            animated: true,
-            index: indexSelec
-        });
+        if(dates){
+            refDias.current.scrollToIndex({
+                animated: true,
+                index: indexSelec
+            });
+        }    
     }
 
     const listTimesRendered = () => {
-        refTimes.current.scrollToIndex({
-            animated: true,
-            index: indexSelecTime
-        });
+        if(times){
+            refTimes.current.scrollToIndex({
+                animated: true,
+                index: indexSelecTime
+            });
+        }   
     }
 
-
-    //controla a exibição da lista de horários
-    const [showTime, setShowTime] = useState(true) 
-
     //contém o o horário selecionado
-    const [timeSelected, setTimeSelected] = useState(route.params.horario)
+    const [timeSelected, setTimeSelected] = useState(route.params.schedule)
 
 
     //cards de horários
     const renderTimes = (item, index) => {
-
         return(
             <TouchableOpacity
             style = {[
@@ -237,7 +213,7 @@ export function ChangeAppointment({navigation, route}){
             ]}
             onPress={() => {
                 setTimeSelected(item.item.time)
-                setDataCompleta(item.item.value)
+                setFullDate(item.item.value)
             }}>
                 <Text style = {[styles.buttonNames, {fontWeight: 'bold'}]}>{item.item.time}</Text>
                 
@@ -245,10 +221,8 @@ export function ChangeAppointment({navigation, route}){
         )
     }
 
-   
-
-
-    const [dataCompleta, setDataCompleta] = useState("")
+    //contém data completa
+    const [fullDate, setFullDate] = useState("")
 
 
     //controla exibição do spinner
@@ -280,7 +254,6 @@ export function ChangeAppointment({navigation, route}){
                         setModalIsVisible(false)
                         navigation.dispatch(CommonActions.goBack())
                     }}
-
                 >
                     <Text style = {styles.modalButtonText}>Ok</Text>
                 </TouchableOpacity>
@@ -303,7 +276,7 @@ export function ChangeAppointment({navigation, route}){
     }
 
     useEffect(() => {
-        if(dateSelected == route.params.date && timeSelected == route.params.horario){
+        if(dateSelected == route.params.date && timeSelected == route.params.schedule){
             setDesabilitar(false)
         }else{
             setDesabilitar(true)
@@ -328,78 +301,65 @@ export function ChangeAppointment({navigation, route}){
         )
     }
 
-    const [isLoad, setIsLoad] = useState(true)
+    
 
 
     return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#476969'}}>
             <ScrollView>
-            {isLoad ? (
-            <>
-            <View style = {{flex :1}}>
-            <Topo/>
-            <View style = {{marginHorizontal: 20}}>
-                <Text style = {styles.listsHeader}>Profissionais disponíveis</Text>
-                <FlatList 
-                    horizontal = {true}
-                    contentContainerStyle = {{marginBottom: 25}}
-                    data = {membersData}
-                    keyExtractor = {item => item.id}
-                    renderItem = {renderMembers}
-                />
-            </View>
-            
-            <View style = {{marginHorizontal: 20}}>
-                <Text style = {styles.listsHeader}>Datas disponíveis</Text>
-                <FlatList 
-                    ref={refDias}
-                    horizontal = {true}
-                    onContentSizeChange={listRendered}
-                    contentContainerStyle = {{marginBottom: 25}}
-                    data = {dates}
-                    keyExtractor = {item => item.id}
-                    renderItem = {renderDates}
-                />
-            </View>
+                <View>
+                    <Topo/>
+                    <View style = {{marginHorizontal: 20}}>
+                        <Text style = {styles.listsHeader}>Profissionais disponíveis</Text>
+                        <FlatList 
+                            horizontal = {true}
+                            contentContainerStyle = {{marginBottom: 25}}
+                            data = {membersData}
+                            keyExtractor = {item => item.id}
+                            renderItem = {renderMembers}
+                        />
+                    </View>
+                    
+                    <View style = {{marginHorizontal: 20}}>
+                        <Text style = {styles.listsHeader}>Datas disponíveis</Text>
+                        <FlatList 
+                            ref={refDias}
+                            horizontal = {true}
+                            onContentSizeChange={listRendered}
+                            contentContainerStyle = {{marginBottom: 25}}
+                            data = {dates}
+                            keyExtractor = {item => item.id}
+                            renderItem = {renderDates}
+                        />
+                    </View>
 
-            <View style = {{marginHorizontal: 20}}>
-                <Text style = {styles.listsHeader}>Horários disponíveis</Text>
-                {times ? null : <Text style = {{color: '#ffffff', marginTop: 10, opacity: 0.5}}>Nenhum horário disponível...</Text>}
-                <FlatList 
-                    ref={refTimes}
-                    horizontal = {true}
-                    onContentSizeChange={listTimesRendered}
-                    contentContainerStyle = {{marginBottom: 25}}
-                    data = {times}
-                    keyExtractor = {item => item.time}
-                    renderItem = {renderTimes}
-                />
-            </View>
-            
-            
+                    <View style = {{marginHorizontal: 20}}>
+                        <Text style = {styles.listsHeader}>Horários disponíveis</Text>
+                        {times ? null : <Text style = {{color: '#ffffff', marginTop: 10, opacity: 0.5}}>Nenhum horário disponível...</Text>}
+                        <FlatList 
+                            ref={refTimes}
+                            horizontal = {true}
+                            onContentSizeChange={listTimesRendered}
+                            contentContainerStyle = {{marginBottom: 25}}
+                            data = {times}
+                            keyExtractor = {item => item.time}
+                            renderItem = {renderTimes}
+                        />
+                    </View>
+                </View>
+            </ScrollView>
             <TouchableOpacity 
-            style = {[styles.submitButton,{opacity: (memberSelected && dateSelected && timeSelected) && (desabilitar) ? 1 : 0.5}]}
-            disabled = {(memberSelected && dateSelected && timeSelected) && (desabilitar) ? false : true}
-            onPress={() => {
-                agendamento(globalVariables.userId, memberSelected, dataCompleta)
-            }}
+                style = {[styles.submitButton,{opacity: (memberSelected && dateSelected && timeSelected) && (desabilitar) ? 1 : 0.5}]}
+                disabled = {(memberSelected && dateSelected && timeSelected) && (desabilitar) ? false : true}
+                onPress={() => {
+                    agendamento(globalVariables.userId, memberSelected, fullDate)
+                }}
             >
                 <Text style = {styles.submitButtonText}>Alterar consulta</Text>
             </TouchableOpacity>
-            </View>
-            
-            <Footer disable = {true}/>
-            </>
-            ) 
-            : 
-            <>
-            </>}
-            
             <Spinner visible = {spinnerVisible}/>
-            </ScrollView>
+            <Footer disable = {true}/>
             {renderModal()}
-            
-
         </SafeAreaView>
     )
 }

@@ -15,21 +15,21 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export const FormPaciente = (props) => {
 
     const email = useRef();
-    const senha = useRef();
+    const password = useRef();
     const formRef = useRef(null);
     const [emailValue, SetEmailValue] = useState();
-    const [senhaValue, setSenhaValue] = useState();
+    const [passwordValue, setPasswordValue] = useState();
     const [hidePass, setHidePass] = useState(true);
     
     
 
     function printData(){
-        props.func(emailValue, senhaValue)
-        senha.current.clear()
+        props.func(emailValue, passwordValue)
+        password.current.clear()
     }
 
-    function esconder(esconderSenha){
-        setHidePass(esconderSenha)
+    function hide(hidePassword){
+        setHidePass(hidePassword)
     }
 
 
@@ -38,8 +38,8 @@ export const FormPaciente = (props) => {
     )
 
 
-    const labelSenha = () => (
-        <Text style = {{color: '#ffffff'}}>Senha</Text>     
+    const labelPassword = () => (
+        <Text style = {{color: '#ffffff'}}>Password</Text>     
     )
 
     return(
@@ -59,28 +59,28 @@ export const FormPaciente = (props) => {
                         ref = { email }
                         onChangeText = { (value) => {SetEmailValue(value)} }>
                         </TextInput>
-                        <View style = { styles.inputSenhaContainer }>
+                        <View style = { styles.inputPasswordContainer }>
                             <TextInput 
                             textColor="#ffffff"
                             underlineColor="#ffffff"
                             activeUnderlineColor="#FF4500"
-                            label={labelSenha()}
-                            style = { styles.inputSenha }  
+                            label={labelPassword()}
+                            style = { styles.inputPassword }  
                             placeholderTextColor = { 'grey' } 
                             secureTextEntry = { hidePass } 
-                            ref = { senha }
-                            onChangeText = { (value) => {setSenhaValue(value)} }>
+                            ref = { password }
+                            onChangeText = { (value) => {setPasswordValue(value)} }>
                             </TextInput>
 
-                            {/*componente para ativar/desativar visibilidade da senha*/}
-                            <HideButton func = { (esconderSenha) => esconder(esconderSenha) }/>
+                            {/*componente para ativar/desativar visibilidade da password*/}
+                            <HideButton func = { (hidePassword) => hide(hidePassword) }/>
                         </View>
                     </View>
                 </Form>
                 <View style = { styles.buttonContainer }>
                     <TouchableOpacity 
-                    style = {[ styles.upButton, {opacity: emailValue && senhaValue ? 1 : 0.5} ]} 
-                    disabled = { emailValue && senhaValue ? false : true } 
+                    style = {[ styles.upButton, {opacity: emailValue && passwordValue ? 1 : 0.5} ]} 
+                    disabled = { emailValue && passwordValue ? false : true } 
                     onPress = { () => {formRef.current.submitForm()} }>
                         <Text style = { styles.upButtonText }>Entrar</Text>
                     </TouchableOpacity>

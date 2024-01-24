@@ -15,28 +15,28 @@ export function Menu({navigation, route}){
 
     const dados = route.params
     const nome = dados.dataUser.name
-    const [horario, setHorario] = useState('-')
+    const [schedule, setschedule] = useState('-')
 
     useEffect(() => {
-        horarioConfig()
+        scheduleConfig()
     }, [])
 
-   function horarioConfig(){ 
+   function scheduleConfig(){ 
 
         let data = new Date()
         let hora = data.getHours() 
 
         if(hora >= 0 && hora < 12)
         {
-            setHorario('Bom dia,')
+            setschedule('Bom dia,')
         }
         else if (hora >= 12 && hora <= 18)
         {
-            setHorario('Boa tarde,')
+            setschedule('Boa tarde,')
         }
         else
         {
-            setHorario('Boa noite,')
+            setschedule('Boa noite,')
         }
 
     }
@@ -72,7 +72,7 @@ export function Menu({navigation, route}){
         return(
             <View>
                 <View style = {styles.header}>
-                    <Text style = {{color: '#ffffff', fontSize: 15}}>{horario}</Text>
+                    <Text style = {{color: '#ffffff', fontSize: 15}}>{schedule}</Text>
                     <Text style = {{color: '#ffffff', fontSize: 18, fontWeight: 'bold'}}>{nome}</Text>
                 </View>  
                 <Text style = {styles.pergunta}>O que gostaria de fazer?</Text>

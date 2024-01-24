@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 45,
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
     },
     footerButtons: {
         alignItems: 'center',

@@ -45,7 +45,7 @@ function App() {
       qr.executeSql(
         "CREATE TABLE IF NOT EXISTS " +
         "users" + 
-        "(id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT,email TEXT, senha TEXT, token TEXT, userId INTEGER, lastLoggedIn TEXT);"
+        "(id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT,email TEXT, password TEXT, token TEXT, userId INTEGER, lastLoggedIn TEXT);"
       );
     })
   }

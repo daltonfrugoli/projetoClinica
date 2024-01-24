@@ -19,8 +19,7 @@ export const AppointmentStatus = (props) => {
 
 
     const alterar = () => {
-       navigation.navigate("ChangeAppointment", {horario: props.horario, date: props.date, member: props.member, id: props.id})
-      
+       navigation.navigate("ChangeAppointment", {schedule: props.schedule, date: props.date, member: props.member, id: props.id})
     }
 
     
