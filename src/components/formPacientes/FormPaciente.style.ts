@@ -16,11 +16,11 @@ export const styles = StyleSheet.create({
     inputEmail: {
         backgroundColor: '#476969',   
     },
-    inputSenhaContainer: {
+    inputPasswordContainer: {
         flexDirection: "row",
         marginTop: 15
     },
-    inputSenha: {
+    inputPassword: {
         backgroundColor: '#476969',
         width: '100%'
     },

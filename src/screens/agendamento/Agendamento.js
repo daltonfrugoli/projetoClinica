@@ -16,10 +16,7 @@ import { styles } from "./Agendamento.style"
 import { listAppointments } from "../../services/Http";
 import globalVariables from "../../services/GlobalVariables";
 import { Card } from "../../components/consultasCard/Card";
-import Spinner from "react-native-loading-spinner-overlay";
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
-
-
 
 
 
@@ -58,19 +55,19 @@ export function Agendamento({navigation}){
         return(
             <View style = {styles.topView}>
                 <TouchableOpacity
-                onPress = {() => {
-                    navigation.dispatch(CommonActions.goBack())
-                }}
+                    onPress = {() => {
+                        navigation.dispatch(CommonActions.goBack())
+                    }}
                 >
                     <Ionicons name = "arrow-back-outline" style = {styles.goBackArrow}></Ionicons>
                 </TouchableOpacity>
                 <Text style = {styles.topText}>Consultas</Text>
                 
                 <TouchableOpacity 
-                style = {styles.novaConsultaButton}
-                onPress={() => {
-                    newAppointment()
-                }}
+                    style = {styles.novaConsultaButton}
+                    onPress={() => {
+                        newAppointment()
+                    }}
                 >
                     <Ionicons style = {{color: '#ffffff', fontSize: 20, fontWeight: 'bold'}} name="add-outline"/>
                     <Text style = {{color: '#ffffff'}}>Nova consulta</Text>
@@ -85,26 +82,25 @@ export function Agendamento({navigation}){
 
     function attList(){
         setAppointmentsData([])
-        setSpinnerIsVisible(true)
+        setIsLoad(false)
         setTimeout(() => {
             listAllAppointments()
-            setSpinnerIsVisible(false)
-        }, 3000)
-        
+            setIsLoad(true)
+        }, 3000)   
     }
 
 
     const renderItem = ({item, index}) => {
         return(
                 <Card 
-                name = {item.member.name}
-                memberId = {item.member.id}
-                specialization = {item.member.specialization.name}
-                date = {item.date}
-                cancelable = {item.cancelable}
-                past = {item.past}
-                id = {item.id}
-                updateList = {() => attList()}
+                    name = {item.member.name}
+                    memberId = {item.member.id}
+                    specialization = {item.member.specialization.name}
+                    date = {item.date}
+                    cancelable = {item.cancelable}
+                    past = {item.past}
+                    id = {item.id}
+                    updateList = {() => attList()}
                 />
           )
     }
@@ -135,7 +131,6 @@ export function Agendamento({navigation}){
                     <Rect x = "16" y = "87" rx = "4" ry = "4" width = {102} height = {12}/>
                     <Rect x = "198" y = "87" rx = "4" ry = "4" width = {102} height = {12}/>
                     <Rect x = "16" y = "144" rx = "4" ry = "4" width = {286} height = {12}/>
-                    {/*<Rect x = "16" y = "132" rx = "4" ry = "4" width = {136} height = {12}/>*/}
                 </ContentLoader>
             </View>
                 
@@ -173,13 +168,12 @@ export function Agendamento({navigation}){
             
             {isLoad ? (
             <FlatList
-            ListHeaderComponent={HeaderList()}
-            contentContainerStyle = {{ paddingBottom: 100 }}
-            data = {appointmentsData}
-            keyExtractor = {item => item.id}
-            renderItem = {renderItem}
-            numColumns = {1}
-            
+                ListHeaderComponent={HeaderList()}
+                contentContainerStyle = {{ paddingBottom: 100 }}
+                data = {appointmentsData}
+                keyExtractor = {item => item.id}
+                renderItem = {renderItem}
+                numColumns = {1}    
             />) : 
             <>
             {HeaderList()}
@@ -188,7 +182,6 @@ export function Agendamento({navigation}){
             </View> 
             </>
             }
-            <Spinner visible = {spinnerIsVisible}/>
             <Footer/>
         </SafeAreaView>
     )

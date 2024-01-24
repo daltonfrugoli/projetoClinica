@@ -246,7 +246,7 @@ export function NewAppointment({navigation}){
             onPress={() => {
                 console.log(item.item.time)
                 setTimeSelected(item.item.time)
-                setDataCompleta(item.item.value)
+                setFullDate(item.item.value)
             }}>
                 <Text style = {[styles.buttonNames, {fontWeight: 'bold'}]}>{item.item.time}</Text>
                 
@@ -257,7 +257,7 @@ export function NewAppointment({navigation}){
    
 
 
-    const [dataCompleta, setDataCompleta] = useState("")
+    const [fullDate, setFullDate] = useState("")
 
 
     //controla exibição do spinner
@@ -345,7 +345,7 @@ export function NewAppointment({navigation}){
             disabled = {memberSelected && dateSelected && timeSelected ? false : true}
             onPress={() => {
                 console.log('realizaragendamento')
-                agendamento(globalVariables.userId, memberSelected, dataCompleta)
+                agendamento(globalVariables.userId, memberSelected, fullDate)
             }}
             >
                 <Text style = {styles.submitButtonText}>Realizar agendamento</Text>

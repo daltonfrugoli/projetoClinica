@@ -1,9 +1,9 @@
 import api from "./Api" 
 
-export async function signIn(email, senha){
+export async function signIn(email, password){
 
     try{
-        const response = await api.post("/sessions", {email: email, password: senha})
+        const response = await api.post("/sessions", {email: email, password: password})
         api.setHeader("Authorization", "Bearer " + response.data.token )
         return response
     }
@@ -47,9 +47,9 @@ export async function updateUser(userData){
         const response = await api.put('/users', {
             name: userData.name,
             email: userData.email,
-            oldPassword: userData.senhaAtual,
-            password: userData.senhaNova,
-            confirmPassword: userData.senhaNovaConf
+            oldPassword: userData.currentPassword,
+            password: userData.newPassword,
+            confirmPassword: userData.newPasswordConf
         })
 
         return response  

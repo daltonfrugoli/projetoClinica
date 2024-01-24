@@ -14,7 +14,7 @@ export const HistoricCard = (props) => {
 //style = {{flexDirection: 'row', alignItems: 'center'}}
 
     var today = new Date(props.date)
-    var horario = today.toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}).slice(11,16)
+    var schedule = today.toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}).slice(11,16)
 
     return(
         
@@ -34,7 +34,7 @@ export const HistoricCard = (props) => {
                     </View>
                     <View style = {styles.midLineContainers}>
                         <Ionicons style = {styles.midIcons} name="time"/>
-                        <Text style = {styles.midText}>{horario}h</Text>
+                        <Text style = {styles.midText}>{schedule}h</Text>
                     </View>
                 </View>
                 <View style = {{flexDirection: 'row'}}>

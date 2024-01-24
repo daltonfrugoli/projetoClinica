@@ -15,14 +15,14 @@ export const HideButton = (props) => {
         hidePass == true ? setHidePass(false) : setHidePass(true);
     }
 
-    const mudarSenha = () => {
+    const mudarPassword = () => {
         props.func(hidePass)
     }
 
     return(
 
     <TouchableOpacity 
-    style = {styles.hideButton} onPress = { () =>{ changeButton(), mudarSenha() }}>
+    style = {styles.hideButton} onPress = { () =>{ changeButton(), mudarPassword() }}>
         <Ionicons name = { hidePass == true ? 'eye-off-outline' : 'eye-outline' } style = { styles.icon }/>
     </TouchableOpacity>
     )
